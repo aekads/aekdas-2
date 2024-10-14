@@ -438,14 +438,17 @@ const getAllScreens = async (req, res) => {
         const groupscreen = await screen.getGroupScreen();
         const  screenStatus=await screen.getStatus();
 
+        const screenSlotData=await screen.getScreenSlotData();
+        const screenDeviceConfig=await screen.screenDeviceConfig();
+
         res.render("Screen", {
             message: null,
-            screens: allScreens,
+            screens: screenSlotData,
             screenCount,
             onlineScreen,
             offlineScreen,
             deletedScreens,
-            groupscreen,screenStatus
+            groupscreen,screenStatus,screenDeviceConfig
         });
     } catch (error) {
         console.error("Error fetching all screens:", error);
