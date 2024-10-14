@@ -354,6 +354,79 @@ const offlineScreens = screens.rows.map(screen => {
 };
 
 
+
+// Function to get screen slot data with filled and empty slots
+const getScreenSlotData = async () => {
+  try {
+    const result = await db.query(`
+      SELECT screenid, 
+             pairingcode, 
+             screenname, 
+             status, 
+             tags, 
+             location, 
+             city, 
+             area, 
+             state, 
+             pincode, 
+             country, 
+             deleted, 
+             playlistname, 
+             playlistdescription,
+             name, 
+             description,
+             live1, live2, live3, live4, live5, live6, live7, live8, live9, live10,
+
+             -- Count of filled slots
+             (CASE WHEN slot1 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot2 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot3 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot4 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot5 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot6 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot7 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot8 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot9 IS NOT NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot10 IS NOT NULL THEN 1 ELSE 0 END) AS filled_slots,
+             
+             -- Count of empty slots
+             (CASE WHEN slot1 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot2 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot3 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot4 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot5 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot6 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot7 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot8 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot9 IS NULL THEN 1 ELSE 0 END +
+              CASE WHEN slot10 IS NULL THEN 1 ELSE 0 END) AS empty_slots
+             
+      FROM public.screens where deleted=false
+      ORDER BY screenid DESC
+    `);
+    return result.rows;
+  } catch (err) {
+    console.error("Error occurred at fetching screen slot data:", err);
+    throw err;
+  }
+};
+
+
+
+const screenDeviceConfig=async () => {                                           
+  try {
+    const result = await db.query("SELECT * FROM device_configs"); 
+    return result.rows; // Return the first matching result
+  } catch (err) {
+    console.error("Error occurred at fetching device config:", err);
+    throw err;
+  }
+};
+
+
+
+
+
 module.exports = {
   restoreScreenInDB,
   newScreen,
@@ -371,6 +444,9 @@ module.exports = {
   deleteScreenById,
  screenByName,getStatus,getOnlineCountByClientTable,getOfflineCountByClientTable,getClientStatuses,getScreenById,deviceConfig,
  AllOnlineScreens,
- AllOfflineScreens
+ AllOfflineScreens,
+
+ getScreenSlotData,
+ screenDeviceConfig
 };
 
