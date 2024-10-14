@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Screens</title>
-  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <link rel="icon" type="image/png"
+    href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <link rel="stylesheet" href="/css/font.css" />
@@ -13,63 +14,63 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <style>
     .export-btn {
-  background-color: #0d6efd; /* Green */
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 5px;
-}
+      background-color: #0d6efd;
+      /* Green */
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
-.column-selection {
-  display: none;
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -20%);
-  padding: 20px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  width: 70ch;
-  box-shadow: 0px 0px 10px 0px #000;
-  z-index: 10;
-}
+    .column-selection {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      width: 70ch;
+      box-shadow: 0px 0px 10px 0px #000;
+      z-index: 10;
+    }
 
-.column-selection h3 {
-  margin-top: 0;
-}
+    .column-selection h3 {
+      margin-top: 0;
+    }
 
-.column-selection label {
-  display: block;
-  margin: 5px 0;
-}
+    .column-selection label {
+      display: block;
+      margin: 5px 0;
+    }
 
 
 
-.settings {
-   background-color: #f0f0f0;
-   border: none;
-   padding: 10px;
-   border-radius: 5px;
-   cursor: pointer;
-   display: flex;
-   align-items: center;
-}
+    .settings {
+      background-color: #f0f0f0;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
 
-.settings i {
-   margin-right: 5px;
-}
+    .settings i {
+      margin-right: 5px;
+    }
 
-.settings:hover {
-   background-color: #e0e0e0;
-}
-
+    .settings:hover {
+      background-color: #e0e0e0;
+    }
   </style>
 </head>
 
@@ -274,33 +275,44 @@
 
           <div class="show-Screen" id="show-Screen">
             <div>
-              <h2 style="display: flex;justify-content: space-between;text-align: center;">Screens/Players   <button id="exportButton" class="export-btn" style="display: none;">Export</button>
+              <h2 style="display: flex;justify-content: space-between;text-align: center;">Screens/Players <button
+                  id="exportButton" class="export-btn" style="display: none;">Export</button>
 
               </h2>
               <p style="font-size: small;">Total Screen : <%= screenCount %>
               </p>
 
 
-<!-- Column Selection Modal/Dropdown -->
-<div id="columnSelection" class="column-selection">
-  <h3 style="display: flex; justify-content: space-between;">
-    Select Columns to Export
-    <button id="closeColumnSelection" style="background: none; border: none; font-size: 1.5em; cursor: pointer;">&times;</button>
-  </h3>
-  <form>
-    <!-- <label><input type="checkbox" name="columns" value="Sr No." checked> Sr No.</label><br> -->
-    <label><input type="checkbox" name="columns" value="Screen Id" checked> Screen Id</label><br>
-    <!-- <label><input type="checkbox" name="columns" value="Pairing Code" checked> Pairing Code</label><br> -->
-    <label><input type="checkbox" name="columns" value="Screen Name" checked> Screen Name</label><br>
-    <label><input type="checkbox" name="columns" value="Playlist Name" checked> Playlist Name</label><br>
-    <label><input type="checkbox" name="columns" value="Status" checked> Status</label><br>
-    <label><input type="checkbox" name="columns" value="Tags" checked> Tags</label><br>
-    <label><input type="checkbox" name="columns" value="Address" checked> Address</label><br>
-    <label><input type="checkbox" name="columns" value="City" checked> City</label><br>
-    <label><input type="checkbox" name="columns" value="Last Response Time" checked> Last Response Time</label><br>
-  </form>
-  <button id="exportSelectedColumns" class="export-btn">Export Selected</button>
-</div>
+              <!-- Column Selection Modal/Dropdown -->
+              <div id="columnSelection" class="column-selection">
+                <h3 style="display: flex; justify-content: space-between;">
+                  Select Columns to Export
+                  <button id="closeColumnSelection"
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer;">&times;</button>
+                </h3>
+                <form>
+                  <!-- <label><input type="checkbox" name="columns" value="Sr No." checked> Sr No.</label><br> -->
+                  <label><input type="checkbox" name="columns" value="Screen Id" checked> Screen Id</label><br>
+                  <!-- <label><input type="checkbox" name="columns" value="Pairing Code" checked> Pairing Code</label><br> -->
+                  <label><input type="checkbox" name="columns" value="Screen Name" checked> Screen Name</label><br>
+                  <label><input type="checkbox" name="columns" value="Type Of Screen" checked> Type Of
+                    Screen</label><br>
+                  <label><input type="checkbox" name="columns" value="Playlist Name" checked> Playlist Name</label><br>
+                  <label><input type="checkbox" name="columns" value="Live Name" checked> Live Name</label><br>
+
+                  <label><input type="checkbox" name="columns" value="Status" checked> Status</label><br>
+                  <label><input type="checkbox" name="columns" value="Orientation" checked> Orientation</label><br>
+
+                  <label><input type="checkbox" name="columns" value="Tags" checked> Tags</label><br>
+                  <label><input type="checkbox" name="columns" value="Address" checked> Address</label><br>
+                  <label><input type="checkbox" name="columns" value="Filled Slots" checked> Filled Slots</label><br>
+
+                  <label><input type="checkbox" name="columns" value="City" checked> City</label><br>
+                  <label><input type="checkbox" name="columns" value="Last Response Time" checked> Last Response
+                    Time</label><br>
+                </form>
+                <button id="exportSelectedColumns" class="export-btn">Export Selected</button>
+              </div>
 
 
             </div>
@@ -308,17 +320,20 @@
               <table>
                 <thead>
                   <tr>
-                    <th><input type="checkbox" id="selectAll"></th> 
+                    <th><input type="checkbox" id="selectAll"></th>
                     <th>Sr No.</th>
                     <th>Screen Id</th>
                     <th style="display: none;">Pairing Code</th>
                     <th>Screen Name</th>
+                    <th>Type Of Screen</th>
                     <th>Playlist Name</th>
+                    <th>Live Name</th>
+
                     <th>Status</th>
 
-                    <th>Tags</th>
+                    <th>Orientation</th>
                     <th>Address</th>
-                    <th>City</th>
+                    <th>Filled Slots</th>
                     <th>Last Response Time</th>
                     <th>Action</th>
                   </tr>
@@ -327,7 +342,7 @@
                   <% if (screens && screens.length) { %>
                     <% screens.forEach((screen, index)=> { %>
                       <tr data-pairingcode="<%= screen.screenid %>">
-                    
+
                         <td>
                           <input type="checkbox" class="row-select" />
                         </td>
@@ -343,6 +358,19 @@
                         <td id="screen.screenname">
                           <%= screen.screenname %>
                         </td>
+
+                        <td id="screen.ifsecondscreenispresentondevice">
+                          <% let matchFound=false; screenDeviceConfig.forEach(screenconfig=> {
+                            if (screen.screenid == screenconfig.client_name) {
+                            matchFound = true;
+                            %>
+                            <%= screenconfig.ifsecondscreenispresentondevice===1 ? 'Single' :
+                              (screenconfig.ifsecondscreenispresentondevice===2 ? 'Dual' : 'not Update' ) %>
+                              <% } }); if (!matchFound) { %>
+                                ---
+                                <% } %>
+                        </td>
+
                         <td id="screen.playlistname">
                           <div style="display: flex;">
                             <p>
@@ -367,26 +395,45 @@
                             </button> -->
                           </div>
                         </td>
+                        <td id="screen.filled_slots">
+                          <%= screen.name %>
+                        </td>
+
                         <td id="screen.deleted">
-                          <% screenStatus.forEach(screenStu=> { %>
-                            <% if (screen.screenid==screenStu.client_name) { %>
-                              <p class="status-cell <%= screenStu.status === 'offline' ? 'offline' : 'online' %> ">
-                                <%= screenStu.status %>
-                              </p>
+                          <% let foundStatus=false; screenStatus.forEach(screenStu=> {
+                            if (screen.screenid == screenStu.client_name) {
+                            foundStatus = true;
+                            %>
+                            <p class="status-cell <%= screenStu.status === 'offline' ? 'offline' : 'online' %> ">
+                              <%= screenStu.status %>
+                            </p>
+                            <% } }); if (!foundStatus) { %>
+                              <p class="status-cell not-updated">not updated</p>
                               <% } %>
-                                <% }); %>
                         </td>
-                        <td id="screen.tags">
-                          <%= screen.tags.length> 20 ? screen.tags.substring(0, 20) + '...' : screen.tags %>
+
+
+                        <td id="screen.resolution">
+                          <% let resolutionFound=false; screenDeviceConfig.forEach(screenconfig=> {
+                            if (screen.screenid == screenconfig.client_name) {
+                            resolutionFound = true;
+                            %>
+                            <%= screenconfig.resolution ? screenconfig.resolution : "Not Update" %>
+                              <% } }); if (!resolutionFound || !screenDeviceConfig.length) { %>
+                                ---
+                                <% } %>
                         </td>
+
+
+
+
                         <td id="screen.location">
                           <%= screen.location.length> 20 ? screen.location.substring(0, 20) + '...' : screen.location %>
                         </td>
-                        <td id="screen.city">
-                          <%= screen.city.length> 20 ? screen.city.substring(0, 20) + '...' : screen.city %>
+                        <td id="screen.filled_slots">
+                          <%= screen.filled_slots %>
                         </td>
                         <td id="screen.pincode">
-
 
                           <% function timeSince(dateTime) { const seconds=Math.floor((Date.now() - new Date(dateTime)) /
                             1000); let interval=Math.floor(seconds / 86400); if (interval>= 1) return interval + " day"
@@ -399,22 +446,23 @@
                             if (interval >= 1) return interval + " minute" + (interval > 1 ? "s" : "") + " ago";
 
                             return seconds + " second" + (seconds > 1 ? "s" : "") + " ago";
-                            }
-                            %>
+                            } %>
 
+                            <% let updated=false; %> <!-- Flag to track if updated time is found -->
 
-
-
-
-                            <% screenStatus.forEach(screenStu=> { %>
-                              <% if (screen.screenid==screenStu.client_name) { %>
-
-
+                              <% screenStatus.forEach(screenStu=> {
+                                if (screen.screenid == screenStu.client_name) {
+                                if (screenStu.updated_at) {
+                                updated = true; %> <!-- Update flag if time is found -->
                                 <%= timeSince(screenStu.updated_at) %>
+                                  <% } } }); %>
 
-                                  <% } %>
-                                    <% }); %>
+                                    <% if (!updated) { %> <!-- If no match was found or updated_at is null -->
+                                      Not Updated
+                                      <% } %>
+
                         </td>
+
                         <td>
                           <div class="action">
                             <button class="edit" onclick="editScreen('<%= screen.screenid %>')">
@@ -453,9 +501,9 @@
                             </button>
                             <a href="/setting/<%= screen.screenid %>">
                               <button class="settings">
-                                 <i class="fas fa-cog"></i>
+                                <i class="fas fa-cog"></i>
                               </button>
-                           </a>
+                            </a>
                           </div>
                         </td>
                       </tr>
@@ -487,7 +535,8 @@
                     <div class="form-class">
                       <label>Pairing Code</label>
                       <input type="text" id="editPairingCode" name="pairingCode" required readonly />
-                    </div> <div class="form-class" style="display: none;">
+                    </div>
+                    <div class="form-class" style="display: none;">
                       <label>Screen Id</label>
                       <input type="text" id="editScreenid" name="screenid" required />
                     </div>
@@ -633,17 +682,17 @@
           </div>
         </div>
         <script>
-// Function to toggle the visibility of the Export button
-function toggleExportButton() {
-  const checkboxes = document.querySelectorAll('.row-select');
-  const exportButton = document.getElementById('exportButton');
-  
-  // Check if any checkbox is selected
-  const anySelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
-  
-  // Show or hide the Export button
-  exportButton.style.display = anySelected ? 'flex' : 'none';
-}
+          // Function to toggle the visibility of the Export button
+          function toggleExportButton() {
+            const checkboxes = document.querySelectorAll('.row-select');
+            const exportButton = document.getElementById('exportButton');
+
+            // Check if any checkbox is selected
+            const anySelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+            // Show or hide the Export button
+            exportButton.style.display = anySelected ? 'flex' : 'none';
+          }
 
 
 
@@ -660,31 +709,31 @@ function toggleExportButton() {
 
 
           // Event listener for the Select All checkbox
-document.getElementById('selectAll').addEventListener('change', function() {
-  const isChecked = this.checked;
-  const checkboxes = document.querySelectorAll('.row-select');
-  checkboxes.forEach(checkbox => {
-    checkbox.checked = isChecked;
-  });
-  toggleExportButton(); // Check if any checkbox is selected
-});
+          document.getElementById('selectAll').addEventListener('change', function () {
+            const isChecked = this.checked;
+            const checkboxes = document.querySelectorAll('.row-select');
+            checkboxes.forEach(checkbox => {
+              checkbox.checked = isChecked;
+            });
+            toggleExportButton(); // Check if any checkbox is selected
+          });
 
-// Event listener for each row checkbox
-document.querySelectorAll('.row-select').forEach(checkbox => {
-  checkbox.addEventListener('change', toggleExportButton);
-});
+          // Event listener for each row checkbox
+          document.querySelectorAll('.row-select').forEach(checkbox => {
+            checkbox.addEventListener('change', toggleExportButton);
+          });
 
         </script>
         <script src="/javaScripts/screen.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
         <script>
           // Event listener for the Select All checkbox
-          document.getElementById('selectAll').addEventListener('change', function() {
+          document.getElementById('selectAll').addEventListener('change', function () {
             const isChecked = this.checked;
             const checkboxes = document.querySelectorAll('.row-select');
             checkboxes.forEach(checkbox => checkbox.checked = isChecked);
           });
-        
+
           // Event listener for the Export Selected Columns button
           document.getElementById('exportSelectedColumns').addEventListener('click', () => {
             const selectedColumns = Array.from(document.querySelectorAll('input[name="columns"]:checked')).map(input => input.value);
@@ -692,14 +741,14 @@ document.querySelectorAll('.row-select').forEach(checkbox => {
             exportTable(selectedColumns, selectedRows);
             document.getElementById('columnSelection').style.display = 'none';
           });
-        
+
           // Function to export table data based on selected columns and rows
           function exportTable(selectedColumns, selectedRows) {
             let csvContent = "data:text/csv;charset=utf-8,";
-        
+
             // Add header row
             csvContent += selectedColumns.join(",") + "\r\n";
-        
+
             // Add data rows
             selectedRows.forEach(row => {
               let rowData = [];
@@ -709,7 +758,7 @@ document.querySelectorAll('.row-select').forEach(checkbox => {
               });
               csvContent += rowData.join(",") + "\r\n";
             });
-        
+
             // Create and trigger the download link for CSV
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
@@ -718,7 +767,7 @@ document.querySelectorAll('.row-select').forEach(checkbox => {
             document.body.appendChild(link);
             link.click();
           }
-        
+
           // Function to find the index of a column by its name
           function getColumnIndex(columnName) {
             const headers = document.querySelectorAll('#show-Screen table thead th');
@@ -729,12 +778,12 @@ document.querySelectorAll('.row-select').forEach(checkbox => {
             }
             return -1;
           }
-        
+
           // Event listener for the Export button to show the column selection
           document.getElementById('exportButton').addEventListener('click', () => {
             document.getElementById('columnSelection').style.display = 'block';
           });
-        
+
           // Function to handle exporting the entire table to Excel (optional)
           function exportTableToExcel(tableID, filename = '') {
             let table = document.getElementById(tableID);
@@ -746,14 +795,14 @@ document.querySelectorAll('.row-select').forEach(checkbox => {
           }
         </script>
 
-<script>
-  // Close the Column Selection modal when the close button is clicked
-  document.getElementById('closeColumnSelection').addEventListener('click', () => {
-    document.getElementById('columnSelection').style.display = 'none';
-  });
-  
-  
-          </script>
+        <script>
+          // Close the Column Selection modal when the close button is clicked
+          document.getElementById('closeColumnSelection').addEventListener('click', () => {
+            document.getElementById('columnSelection').style.display = 'none';
+          });
+
+
+        </script>
 </body>
 
 </html>
