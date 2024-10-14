@@ -265,6 +265,8 @@ const getClientIP = (req) => {
 
 // Helper function to log actions
 const logAction = async (req, action, message, user = null) => {
+
+    
     try {
         const ip = getClientIP(req);
         const userName = user ? user.name : 'Anonymous'; // Default to 'Anonymous' if no user info
@@ -276,6 +278,15 @@ const logAction = async (req, action, message, user = null) => {
 
 // Controller to handle logs
 exports.getLogs = async (req, res) => {
+    const user = req.session.user; // Retrieve user from session
+
+    // Check if the user has 'admin' role only
+    if (user.role !== 'admin') {
+        return res.status(403).send("<script>alert('You do not have permission to edit screens.'); window.location.href = '/Dashboard/Screens';</script>");
+    }
+
+
+
     try {
         const logs = await Log.findAll({
             order: [['createdAt', 'DESC']]
@@ -290,6 +301,14 @@ exports.getLogs = async (req, res) => {
 // Controller to create a new log
 exports.createLog = async (req, res) => {
     const { action, message } = req.body;
+    const user = req.session.user; // Retrieve user from session
+
+    // Check if the user has 'admin' role only
+    if (user.role !== 'admin') {
+        return res.status(403).send("<script>alert('You do not have permission to edit screens.'); window.location.href = '/Dashboard/Screens';</script>");
+    }
+
+
     try {
         const log = await Log.create({ action, message, ip: req.ip });
         res.status(201).json(log);
@@ -299,10 +318,23 @@ exports.createLog = async (req, res) => {
     }
 };
 
+//
 
+const checkRole = (roles) => {
+    return (req, res, next) => {
+      const user = req.session.user;
+      if (!user || !roles.includes(user.role)) {
+        return res.status(403).send("Forbidden: You don't have permission to perform this action");
+      }
+      next();
+    };
+  };
 
 // Add a new screen
 const addScreen = async (req, res) => {
+
+   
+
     const {
         pairingCode,
         screenName,
@@ -313,6 +345,14 @@ const addScreen = async (req, res) => {
         country,
         pincode,
     } = req.body;
+
+    const user = req.session.user; // Retrieve user from session
+
+    // Check if the user has 'admin' role only
+    if (user.role !== 'admin') {
+        return res.status(403).send("<script>alert('You do not have permission to edit screens.'); window.location.href = '/Dashboard/Screens';</script>");
+    }
+
     try {
         if (pairingCode.length > 6) {
             await logAction('addScreen', 'Failed to add screen: pairing code too long');
@@ -438,17 +478,14 @@ const getAllScreens = async (req, res) => {
         const groupscreen = await screen.getGroupScreen();
         const  screenStatus=await screen.getStatus();
 
-        const screenSlotData=await screen.getScreenSlotData();
-        const screenDeviceConfig=await screen.screenDeviceConfig();
-
         res.render("Screen", {
             message: null,
-            screens: screenSlotData,
+            screens: allScreens,
             screenCount,
             onlineScreen,
             offlineScreen,
             deletedScreens,
-            groupscreen,screenStatus,screenDeviceConfig
+            groupscreen,screenStatus
         });
     } catch (error) {
         console.error("Error fetching all screens:", error);
@@ -527,6 +564,13 @@ const getAllScreensAllData = async (req, res) => {
 
 // Get not deleted screens
 const getNotdeletedScreen = async (req, res) => {
+    const user = req.session.user; // Retrieve user from session
+
+    // Check if the user has 'admin' role only
+    if (user.role !== 'admin') {
+        return res.status(403).send("<script>alert('You do not have permission to edit screens.'); window.location.href = '/Dashboard/Screens';</script>");
+    }
+
     try {
         const notDeletedScreen = await screen.getNotdeletedScreen();
         res.render("Screen", {
@@ -541,6 +585,13 @@ const getNotdeletedScreen = async (req, res) => {
 
 // Update or delete a screen
 const updateDeleteScreen = async (req, res) => {
+    const user = req.session.user; // Retrieve user from session
+
+    // Check if the user has 'admin' role only
+    if (user.role !== 'admin') {
+        return res.status(403).send("<script>alert('You do not have permission to edit screens.'); window.location.href = '/Dashboard/Screens';</script>");
+    }
+
     const { screenid } = req.body;
 
     try {
@@ -560,6 +611,13 @@ await logAction(req, 'DeleteScreen', `Screen deleted: ${screenid}`, user);
 
 // Edit a screen
 const editScreen = async (req, res) => {
+    const user = req.session.user; // Retrieve user from session
+
+    // Check if the user has 'admin' role only
+    if (user.role !== 'admin') {
+        return res.status(403).send("<script>alert('You do not have permission to edit screens.'); window.location.href = '/Dashboard/Screens';</script>");
+    }
+
     const {
         screenid,
         pairingCode,
@@ -658,6 +716,14 @@ const restoreScreenInDB = async (req, res) => {
 // Delete a playlist
 const deletePlaylist = async (req, res) => {
     const { screenid } = req.params;
+    const user = req.session.user; // Retrieve user from session
+
+    // Check if the user has 'admin' role only
+    if (user.role !== 'admin') {
+        return res.status(403).send("<script>alert('You do not have permission to edit screens.'); window.location.href = '/Dashboard/Screens';</script>");
+    }
+
+
     try {
         const response = await screen.deletePlaylist(screenid);
         await logAction('deletePlaylist', Playlist `deleted: ${screenid}`, req.ip);
@@ -671,6 +737,14 @@ const deletePlaylist = async (req, res) => {
 
 // Delete a screen
 const deleteScreen = async (req, res) => {
+    const user = req.session.user; // Retrieve user from session
+
+    // Check if the user has 'admin' role only
+    if (user.role !== 'admin') {
+        return res.status(403).send("<script>alert('You do not have permission to edit screens.'); window.location.href = '/Dashboard/Screens';</script>");
+    }
+
+
     const { screenid } = req.params;
     try {
         const success = await screen.deleteScreenById(screenid);
@@ -690,7 +764,7 @@ const deleteScreen = async (req, res) => {
 module.exports = {
     addScreen,
     getAllScreens,  
-        getAllScreens1,
+    getAllScreens1,
     getNotdeletedScreen,
     updateDeleteScreen,
     editScreen,
@@ -698,5 +772,6 @@ module.exports = {
     restoreScreenInDB, 
     getAllScreensAllData,
     deletePlaylist,
+    checkRole,
     deleteScreen
 };
