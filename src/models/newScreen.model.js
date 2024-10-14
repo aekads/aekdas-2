@@ -401,7 +401,7 @@ const getScreenSlotData = async () => {
               CASE WHEN slot9 IS NULL THEN 1 ELSE 0 END +
               CASE WHEN slot10 IS NULL THEN 1 ELSE 0 END) AS empty_slots
              
-      FROM public.screens where deleted=false
+      FROM public.screens
       ORDER BY screenid DESC
     `);
     return result.rows;
