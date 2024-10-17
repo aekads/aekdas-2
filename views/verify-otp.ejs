@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <title>Verify OTP</title>
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <link rel="stylesheet" href="/css/font.css" />
+
+    <script>
+          let timer;
+        let timeLeft = 60;
+
+        function startTimer() {
+            timer = setInterval(function() {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    document.getElementById('timer').innerHTML = 'OTP expired';
+                    document.getElementById('resend-btn').style.display = 'block';
+                } else {
+                    document.getElementById('timer').innerHTML = 'OTP expires in '+timeLeft + ' seconds';
+                }
+                timeLeft -= 1;
+            }, 1000);
+        }
+
+        function resendOTP() {
+            fetch('/resend-otp', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        timeLeft = 60;
+                        document.getElementById('timer').innerHTML = 'OTP expires in 60 seconds';
+                        document.getElementById('resend-btn').style.display = 'none';
+                        document.getElementById('success-msg').innerHTML = 'OTP has been successfully sent!';
+                        document.getElementById('success-msg').style.display = 'block';
+                        startTimer();
+                    } else {
+                        alert('Failed to resend OTP');
+                    }
+                });
+        }
+
+        window.onload = function() {
+            startTimer();
+        }
+    </script>
+</head>
+<body>
+    <div id="main">
+        <div class="left">
+            <div class="logo">
+                <img src="./images/Logo.png" alt="logo file" />
+            </div>
+            <div class="para">
+                <p>Gujrat's largest Digital Screen Network</p>
+            </div>
+        </div>
+        <div class="right">
+            <form action="/verify-otp" method="POST">
+                <div class="details" style="height: 450px;width: 400px;">
+                    <div class="para1">
+                        <p style="margin-right:10px">Verify OTP</p>
+                    </div>
+                    <div class="para2">
+                        <p >We just sent a verification code to your mail</p>
+                    </div>
+                    <div class="emailField" style="padding-left: 5%;">
+                        <label for="otp">OTP:</label>
+                        <input style="padding-right: 5px; width: 300px;" type="text" id="otp" placeholder="Enter OTP" name="otp" required>
+                    </div>
+                    <div class="btn">
+                        <button type="submit">Verify</button>
+                    </div>
+                    <p id="timer" style="color: rgb(100, 100, 100);">OTP expiry in 60 seconds</p>
+                    <div class="btn2">
+                        <button type="button" id="resend-btn" class="small-btn" style="display: none;" onclick="resendOTP()">Resend OTP</button>
+                    </div>
+                    <p id="success-msg" style="color: green; display: none;">OTP has been successfully sent!</p>
+                    <% if (error_msg) { %>
+                        <p style="color: red;"><%= error_msg %></p>
+                    <% } %> 
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

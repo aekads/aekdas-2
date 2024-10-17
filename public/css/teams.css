@@ -1,0 +1,144 @@
+
+
+
+
+input {
+  padding: 5px; /* Apply padding to all input elements */
+}
+
+
+
+.teams {
+  width: 85%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 2%;
+  align-items: start;
+  padding: 20px
+  /* border: 1px solid black; */
+}
+.home-team {
+  background: #ffffff;
+  box-shadow: 0px 0px 4px 0px #00000040;
+  border: 1px solid transparent;
+  padding: 5px 20px;
+  border-radius: 15px;
+  text-align: center;
+  
+  font-size: 14px; /* Increased font size */
+  font-weight: 500; /* Bold */
+  /* line-height: 21.6px; */
+  color: #1c1c1ccc;
+}
+
+.mainData {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  /* padding: 10px; */
+  /* box-shadow: 0px 4px 10px 0px #00000040; */
+  /* background-color: #ffffff; */
+}
+.member-form {
+  width: 50%;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0px 4px 10px 0px #00000040;
+  background-color: #ffffff;
+}
+.table1{
+  width: 50%;
+  height: 270px;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  box-shadow: 0px 4px 10px 0px #00000040;
+  background-color: #ffffff;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.formdata {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+  font-family: Gilroy-Medium;
+  font-size: 18px; /* Increased font size */
+  font-weight: 700; /* Bold */
+  color: #1c1c1ccc;
+}
+.formdata input,
+.formdata select {
+  padding: 8px 10px;
+  border: 1px solid #1c1c1c66;
+  border-radius: 5px;
+  width: 100%;
+  font-family: Gilroy-Medium;
+  font-size: 18px; /* Increased font size */
+  font-weight: 500; /* Bold */
+  color: #1c1c1ccc;
+}
+.btn input {
+  background: #0d6efd;
+  color: #ffffff;
+  font-family: Gilroy-SemiBold;
+  font-size: 18px; /* Increased font size */
+  font-weight: 700; /* Bold */
+  line-height: 23.6px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px 20px; /* Added padding for better appearance */
+}
+.member {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  height: 8%;
+  text-align: center;
+  box-shadow: 0px 4px 10px 0px #00000040;
+  background-color: #ffffff;
+  padding: 20px;
+  font-family: Gilroy-SemiBold;
+  font-size: 18px; /* Increased font size */
+  font-weight: 700; /* Bold */
+  color: #1c1c1ccc;
+}
+.members,
+.Logs,
+.New-members {
+  width: 33.3%;
+  height: 28px;
+  font-family: Gilroy-SemiBold;
+  font-size: 18px; /* Increased font size */
+  font-weight: 700; /* Bold */
+  line-height: 21.6px;
+  color: #1c1c1ccc;
+}
+.New-members:hover, .members:hover, .Logs:hover {
+  border-bottom: 2px solid #0d6efd;
+  color: #0d6efd;
+  padding-bottom: 15px; 
+}
+.New-members {
+  border-bottom: 2px solid #0d6efd;
+  color: #0d6efd;
+  text-decoration: none;
+  
+}

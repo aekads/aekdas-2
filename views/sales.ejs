@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Screens</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <link rel="stylesheet" href="/css/font.css" />
+  <link rel="stylesheet" href="/css/screen.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <style>
+    .export-btn {
+  background-color: #0d6efd; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.column-selection {
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 70ch;
+  box-shadow: 0px 0px 10px 0px #000;
+  z-index: 10;
+}
+
+.column-selection h3 {
+  margin-top: 0;
+}
+
+.column-selection label {
+  display: block;
+  margin: 5px 0;
+}
+
+  </style>
+</head>
+
+<body>
+  <% if (message) { %>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        Swal.fire({
+          icon: '<%= message.type === "error" ? "error" : "success" %>',
+          title: '<%= message.type === "error" ? "Error" : "Success" %>',
+          text: '<%= message.text %>',
+          customClass: {
+            title: '<%= message.type === "error" ? "error-title" : "success-title" %>',
+            content: '<%= message.type === "error" ? "error-content" : "success-content" %>'
+          }
+        });
+      });
+    </script>
+    <% } %>
+
+
+
+
+
+     
+        <div class="screens" style="width: 100%;height: 100%;padding: 0;">
+          <!-- <div class="home-screen">
+            <p>Home><b>Screens</b></p>
+          </div> -->
+
+          <div style="display: flex;width: 100%;gap: 10px;text-align: center;">
+          <div style="margin-left: 20px;background-color: #b3d1ff;  width: 33%;    border-radius: 10px;    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);     padding: 9px;">
+              <h3 >Total Screen</h3>
+              <p>
+                <%= screenCount %>
+              </p>
+            </div>
+            <div style=" background-color: #b3ffb3;       width: 33%;   border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);    padding: 9px;">
+              <h3>Online Screen</h3>
+              <p>
+                <%= onlineScreen %>
+              </p>
+            </div>
+
+        <div style=" background-color: #ffb3b3; margin-right: 20px;      width: 33%;     border-radius: 10px;   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 9px;">
+              <h3>Offline Screen</h3>
+              <p>
+                <%= offlineScreen %>
+              </p>
+            </div>
+          </div>
+
+          <!-- <div class="screen-btn">
+            <div class="screen-btn-3">
+              <button class="allScreen" onclick="showAllScreen()">All Screens</button>
+              <button class="screenGroups" onclick="showGroupScreen()">Screen Groups</button>
+              <button class="deletedScreen" onclick="showDeletedScreens()">Deleted Screens</button>
+            </div>
+            <div class="screen-btn-2">
+              <input type="search" id="searchInput" placeholder="Search">
+              <button class="newScreen-btn" onclick="addNewScreen()">
+                <span>+</span>New Screen
+              </button>
+              <button class="newGroup" onclick="addNewGroup()">
+                <span>+</span>New Group
+              </button>
+            </div>
+          </div> -->
+
+          <!-- <div class="show-Screen" id="show-Group-Screen">
+            <h2>Group Screen</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                  <th>Group Description</th>
+                  <th>Screen Count</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (groupscreen && groupscreen.length) { %>
+                  <% groupscreen.forEach(group=>
+                    { %>
+                    <tr>
+                      <td>
+                        <%= group.group_name %>
+                      </td>
+                      <td>
+                        <%= group.group_description %>
+                      </td>
+                      <td>
+                        <%= group.total_screen %>
+                      </td>
+                      <td>
+                        <div class="action">
+                          <button class="edit" onclick="editGroup('<%= group.group_name %>')">
+                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="15" cy="15" r="15" fill="#E8AF04" />
+                              <g clip-path="url(#clip0_4058_3397)">
+                                <path
+                                  d="M14.25 9H9C8.60218 9 8.22064 9.15804 7.93934 9.43934C7.65804 9.72064 7.5 10.1022 7.5 10.5V21C7.5 21.3978 7.65804 21.7794 7.93934 22.0607C8.22064 22.342 8.60218 22.5 9 22.5H19.5C19.8978 22.5 20.2794 22.342 20.5607 22.0607C20.842 21.7794 21 21.3978 21 21V15.75"
+                                  stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                  d="M19.875 7.87517C20.1734 7.5768 20.578 7.40918 21 7.40918C21.422 7.40918 21.8266 7.5768 22.125 7.87517C22.4234 8.17354 22.591 8.57821 22.591 9.00017C22.591 9.42213 22.4234 9.8268 22.125 10.1252L15 17.2502L12 18.0002L12.75 15.0002L19.875 7.87517Z"
+                                  stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_4058_3397">
+                                  <rect width="18" height="18" fill="white" transform="translate(6 6)" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+
+                          </button>
+                          <button class="delete" onclick="deleteGroup('<%= group.group_name %>')">
+                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="15" cy="15" r="15" fill="#DC3545" />
+                              <path d="M8.25 10.5H9.75H21.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                              <path
+                                d="M12 10.5V9C12 8.60218 12.158 8.22064 12.4393 7.93934C12.7206 7.65804 13.1022 7.5 13.5 7.5H16.5C16.8978 7.5 17.2794 7.65804 17.5607 7.93934C17.842 8.22064 18 8.60218 18 9V10.5M20.25 10.5V21C20.25 21.3978 20.092 21.7794 19.8107 22.0607C19.5294 22.342 19.1478 22.5 18.75 22.5H11.25C10.8522 22.5 10.4706 22.342 10.1893 22.0607C9.90804 21.7794 9.75 21.3978 9.75 21V10.5H20.25Z"
+                                stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M13.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                              <path d="M16.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            </svg>
+
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <% }) %>
+                      <% } else { %>
+                        <tr>
+                          <td colspan="4">No Group found</td>
+                        </tr>
+                        <% } %>
+
+              </tbody>
+            </table>
+          </div> -->
+
+          <!-- <div class="overlay" id="overlay">
+            <div class="newScreen">
+              <div class="newScreen-header">
+                <h2>NEW SCREEN</h2>
+                <button class="close-btn" onclick="hideNewScreen()">×</button>
+              </div>
+              <hr />
+
+              <div class="addNewScreen">
+                <div class="addNewScreen-form">
+                  <form action="/Dashboard/Screens" method="post">
+                    <div class="form-class">
+                      <label>Pairing Code</label>
+                      <input type="number" name="pairingCode" required pattern="\d{6}" min="000000" max="999999" />
+                    </div>
+                    <div class="form-class">
+                      <label>Screen Name</label>
+                      <input type="text" name="screenName" required />
+                    </div>
+                    <div class="form-class">
+                      <label>Tags</label>
+                      <input type="text" name="tags" required />
+                    </div>
+                    <div class="form-class">
+                      <label>Enter Address</label>
+                      <input type="text" name="location" required />
+                    </div>
+                    <div class="location">
+                      <div class="form-class">
+                        <label>City</label>
+                        <input type="text" name="city" required />
+                      </div>
+                      <div class="form-class">
+                        <label>State</label>
+                        <input type="text" name="state" required />
+                      </div>
+                      <div class="form-class">
+                        <label>Country</label>
+                        <input type="text" name="country" required />
+                      </div>
+                      <div class="form-class">
+                        <label>Pincode</label>
+                        <input type="text" name="pincode" required />
+                      </div>
+                    </div>
+                    <div class="form-class pairScreen-btn">
+                      <input type="submit" value="Pair Screen" />
+                    </div>
+                  </form>
+                </div>
+                <div class="map-img"></div>
+              </div>
+            </div>
+          </div> -->
+
+
+
+          <div class="show-Screen" style="width: 98%;height: 78vh;margin-top: 1%;" id="show-Screen">
+            <div>
+              <h2 style="display: flex;justify-content: space-between;text-align: center;">Screens/Players   <button id="exportButton" class="export-btn" style="display: none;">Export</button>
+
+              </h2>
+              <p style="font-size: small;">Total Screen : <%= screenCount %>
+              </p>
+
+
+                        <!-- Column Selection Modal/Dropdown -->
+                        <div id="columnSelection" class="column-selection">
+                        <h3 style="display: flex; justify-content: space-between;">
+                            Select Columns to Export
+                            <button id="closeColumnSelection" style="background: none; border: none; font-size: 1.5em; cursor: pointer;">&times;</button>
+                        </h3>
+                        <form>
+                            <!-- <label><input type="checkbox" name="columns" value="Sr No." checked> Sr No.</label><br> -->
+                            <label><input type="checkbox" name="columns" value="Screen Id" checked> Screen Id</label><br>
+                            <!-- <label><input type="checkbox" name="columns" value="Pairing Code" checked> Pairing Code</label><br> -->
+                            <label><input type="checkbox" name="columns" value="Screen Name" checked> Screen Name</label><br>
+                            <label><input type="checkbox" name="columns" value="Playlist Name" checked> Playlist Name</label><br>
+                            <label><input type="checkbox" name="columns" value="Status" checked> Status</label><br>
+                            <!-- <label><input type="checkbox" name="columns" value="Tags" checked> Tags</label><br> -->
+                            <label><input type="checkbox" name="columns" value="Address" checked> Address</label><br>
+                            <label><input type="checkbox" name="columns" value="City" checked> City</label><br>
+                            <label><input type="checkbox" name="columns" value="Last Response Time" checked> Last Response Time</label><br>
+                        </form>
+                        <button id="exportSelectedColumns" class="export-btn">Export Selected</button>
+                        </div>
+
+
+            </div>
+            <div class="tableClass" style="    max-height: 95vh    ;
+    overflow-y: auto;">
+              <table>
+                <thead >
+                  <tr>
+                    <th><input type="checkbox" id="selectAll"></th> 
+                    <th>Sr No.</th>
+                    <th>Screen Id</th>
+                    <!-- <th>Pairing Code</th> -->
+                    <th>Screen Name</th>
+                    <th>Playlist Name</th>
+                    <th>Status</th>
+
+                    <!-- <th>Tags</th> -->
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Last Response Time</th>
+                    <!-- <th>Action</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (screens && screens.length) { %>
+                    <% screens.forEach((screen, index)=> { %>
+                      <tr data-pairingcode="<%= screen.screenid %>">
+                    
+                        <td>
+                          <input type="checkbox" class="row-select" />
+                        </td>
+                        <td>
+                          <%= index + 1 %>
+                        </td>
+                        <td id="screen.screenid">
+                          <%= screen.screenid %>
+                        </td>
+                        <!-- <td id="screen.pairingcode">
+                          <%= screen.pairingcode %>
+                        </td> -->
+                        <td id="screen.screenname">
+                          <%= screen.screenname %>
+                        </td>
+                        <td id="screen.playlistname">
+                          <div style="display: flex;">
+                            <p>
+                              <%= screen.playlistname %>
+                            </p>
+                            <!-- <button class="delete" onclick="deletePlaylist('<%= screen.screenid %>')">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_1_4435)">
+                                  <path
+                                    d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+                                    stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M8 12H16" stroke="#FF0000" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_1_4435">
+                                    <rect width="24" height="24" fill="white" />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button> -->
+                          </div>
+                        </td>
+                        <td id="screen.deleted">
+                          <% screenStatus.forEach(screenStu=> { %>
+                            <% if (screen.screenid==screenStu.client_name) { %>
+                              <p class="status-cell <%= screenStu.status === 'offline' ? 'offline' : 'online' %> ">
+                                <%= screenStu.status %>
+                              </p>
+                              <% } %>
+                                <% }); %>
+                        </td>
+                        <!-- <td id="screen.tags">
+                          <%= screen.tags.length> 20 ? screen.tags.substring(0, 20) + '...' : screen.tags %>
+                        </td> -->
+                        <td id="screen.location">
+                          <%= screen.location.length> 20 ? screen.location.substring(0, 20) + '...' : screen.location %>
+                        </td>
+                        <td id="screen.city">
+                          <%= screen.city.length> 20 ? screen.city.substring(0, 20) + '...' : screen.city %>
+                        </td>
+                        <td id="screen.pincode">
+
+
+                          <% function timeSince(dateTime) { const seconds=Math.floor((Date.now() - new Date(dateTime)) /
+                            1000); let interval=Math.floor(seconds / 86400); if (interval>= 1) return interval + " day"
+                            + (interval > 1 ? "s" : "") + " ago";
+
+                            interval = Math.floor(seconds / 3600);
+                            if (interval >= 1) return interval + " hour" + (interval > 1 ? "s" : "") + " ago";
+
+                            interval = Math.floor(seconds / 60);
+                            if (interval >= 1) return interval + " minute" + (interval > 1 ? "s" : "") + " ago";
+
+                            return seconds + " second" + (seconds > 1 ? "s" : "") + " ago";
+                            }
+                            %>
+
+
+
+
+
+                            <% screenStatus.forEach(screenStu=> { %>
+                              <% if (screen.screenid==screenStu.client_name) { %>
+
+
+                                <%= timeSince(screenStu.updated_at) %>
+
+                                  <% } %>
+                                    <% }); %>
+                        </td>
+                        
+                      </tr>
+                      <% }); %>
+                        <% } else { %>
+                          <tr>
+                            <td colspan="10">No screens found</td>
+                          </tr>
+                          <% } %>
+                </tbody>
+
+              </table>
+            </div>
+
+
+            <div id="noResultsMessage" style="display: none; text-align: center;">No screens found.</div>
+          </div>
+
+         
+
+          
+        </div>
+        <script>
+// Function to toggle the visibility of the Export button
+function toggleExportButton() {
+  const checkboxes = document.querySelectorAll('.row-select');
+  const exportButton = document.getElementById('exportButton');
+  
+  // Check if any checkbox is selected
+  const anySelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
+  
+  // Show or hide the Export button
+  exportButton.style.display = anySelected ? 'flex' : 'none';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          // Event listener for the Select All checkbox
+document.getElementById('selectAll').addEventListener('change', function() {
+  const isChecked = this.checked;
+  const checkboxes = document.querySelectorAll('.row-select');
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = isChecked;
+  });
+  toggleExportButton(); // Check if any checkbox is selected
+});
+
+// Event listener for each row checkbox
+document.querySelectorAll('.row-select').forEach(checkbox => {
+  checkbox.addEventListener('change', toggleExportButton);
+});
+
+        </script>
+        <script src="/javaScripts/screen.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+        <script>
+          // Event listener for the Select All checkbox
+          document.getElementById('selectAll').addEventListener('change', function() {
+            const isChecked = this.checked;
+            const checkboxes = document.querySelectorAll('.row-select');
+            checkboxes.forEach(checkbox => checkbox.checked = isChecked);
+          });
+        
+          // Event listener for the Export Selected Columns button
+          document.getElementById('exportSelectedColumns').addEventListener('click', () => {
+            const selectedColumns = Array.from(document.querySelectorAll('input[name="columns"]:checked')).map(input => input.value);
+            const selectedRows = Array.from(document.querySelectorAll('.row-select:checked')).map(checkbox => checkbox.closest('tr'));
+            exportTable(selectedColumns, selectedRows);
+            document.getElementById('columnSelection').style.display = 'none';
+          });
+        
+          // Function to export table data based on selected columns and rows
+          function exportTable(selectedColumns, selectedRows) {
+            let csvContent = "data:text/csv;charset=utf-8,";
+        
+            // Add header row
+            csvContent += selectedColumns.join(",") + "\r\n";
+        
+            // Add data rows
+            selectedRows.forEach(row => {
+              let rowData = [];
+              selectedColumns.forEach(column => {
+                const cell = row.querySelector(`td:nth-child(${getColumnIndex(column)})`);
+                rowData.push(cell ? cell.innerText : '');
+              });
+              csvContent += rowData.join(",") + "\r\n";
+            });
+        
+            // Create and trigger the download link for CSV
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "selected_rows_export.csv");
+            document.body.appendChild(link);
+            link.click();
+          }
+        
+          // Function to find the index of a column by its name
+          function getColumnIndex(columnName) {
+            const headers = document.querySelectorAll('#show-Screen table thead th');
+            for (let i = 0; i < headers.length; i++) {
+              if (headers[i].innerText.trim() === columnName) {
+                return i + 1;
+              }
+            }
+            return -1;
+          }
+        
+          // Event listener for the Export button to show the column selection
+          document.getElementById('exportButton').addEventListener('click', () => {
+            document.getElementById('columnSelection').style.display = 'block';
+          });
+        
+          // Function to handle exporting the entire table to Excel (optional)
+          function exportTableToExcel(tableID, filename = '') {
+            let table = document.getElementById(tableID);
+            let ws = XLSX.utils.table_to_sheet(table.querySelector('table'));
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "ScreensData");
+            filename = filename ? filename + '.xlsx' : 'exported_data.xlsx';
+            XLSX.writeFile(wb, filename);
+          }
+        </script>
+
+<script>
+    // Close the Column Selection modal when the close button is clicked
+    document.getElementById('closeColumnSelection').addEventListener('click', () => {
+      document.getElementById('columnSelection').style.display = 'none';
+    });
+    
+    
+            </script>
+</body>
+
+</html>

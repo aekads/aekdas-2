@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Logs</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+    <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/css/font.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 0;
+            overflow: hidden;
+            margin-left: 2%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #eef2f7;
+        }
+
+        .header button {
+            background-color: #5e72e4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .search-container .filter-button,
+        .search-container .export-button {
+            background-color: #5e72e4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .logs {
+            padding: 20px;
+        }
+
+        .logs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .logs-header span {
+            font-weight: bold;
+        }
+
+        .table-container {
+            max-height: 80vh; /* Adjust the height as needed */
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f0f4f8;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <%- include('Dashboard') %>
+    <div class="container">
+        <div class="header">
+            <h1>ACTIVITY-LOGS</h1>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search Log">
+                <button class="filter-button">All</button>
+                <button class="export-button">Export Logs</button>
+            </div>
+        </div>
+
+        <div class="logs">
+            <div class="logs-header">
+                <span>Total Logs: <%= logs.length %></span>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <!-- <th>ID</th> -->
+                            
+                            <th>Date</th>
+                            <th>Action</th>
+                            <th>Message</th>
+                            <th>IP Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                        <% logs.forEach(log => { %>
+                            <tr>
+                                <td><%= log.createdAt %></td>
+                              <td><%= log.action %></td>
+                             
+                             
+                              <td><%= log.message %></td>
+                              <td><%= log.ip %></td>
+                            
+                            </tr>
+                          <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            var input = document.getElementById('searchInput').value.toLowerCase();
+            var tableBody = document.getElementById('logsTableBody');
+            var rows = tableBody.getElementsByTagName('tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName('td');
+                var rowText = '';
+                for (var j = 0; j < cells.length; j++) {
+                    rowText += cells[j].textContent.toLowerCase() + ' ';
+                }
+                if (rowText.includes(input)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

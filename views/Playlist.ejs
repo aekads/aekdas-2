@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playlist</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <link rel="stylesheet" href="/css/font.css" />
+  <link rel="stylesheet" href="/css/playlist.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+  <%- include('Dashboard') %>
+    <div class="playlist">
+      <header>
+        <div class="home-playlist">
+          <p>Home><b>Playlist</b></p>
+        </div>
+        <div class="search-newplaylist">
+          <input type="search" placeholder="Search" id="searchInput">
+          <button class="newPlaylist" onclick="addPlaylistBox()">
+            <span>+</span>New Playlist
+          </button>
+        </div>
+      </header>
+      <div class="create-playlist" id="overlay" style="z-index: 1000;">
+        <div class="newScreen">
+          <div class="newScreen-header">
+            <h2>NEW PLAYLIST</h2>
+            <button class="close-btn" onclick="hideNewScreen()">×</button>
+          </div>
+          <hr />
+          <div class="addNewScreen-form">
+
+
+            <div class="form-class">
+              <label>Playlist Name</label>
+              <input type="text" name="playlistName" id="playlistName" required />
+            </div>
+
+            <div class="form-class">
+              <label>Playlist Description</label>
+              <textarea name="playlistDescription" id="playlistDescription" required></textarea>
+            </div>
+
+
+            <div class="form-class btn">
+              <button id="createPlaylistButton">Create Playlist</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      
+        <div class="showPlaylists">
+          <% if (playlists && playlists.length> 0) { %>
+            <% playlists.forEach(playlist=> { %>
+              <div class="playlist-items">
+                <div class="playlist-img">
+                  <video autoplay loop muted playsinline preload="metadata">
+                    <source src="<%= playlist.slot1 %>"  type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                </div>
+                <div style="display: flex; justify-content: space-between; gap: 10px;">
+                
+              <div>
+                <div class="playlist-info">
+                  <p style="font-size: 18px;">
+                    <strong>
+                      <%= truncateText(playlist.playlistname, 20) %>
+                        <% function truncateText(text, maxLength) { if (text.length> maxLength) {
+                          return text.substring(0, maxLength) + '...';
+                          }
+                          return text;
+                          }
+                          %>
+                    </strong>
+                  </p>
+                </div>
+                <div class="playlist-info3">
+                  <p style="font-size: 14px;">
+                    <%= truncateText(playlist.playlistdescription, 20) %>
+                      <% function truncateText(text, maxLength) { if (text.length> maxLength) {
+                        return text.substring(0, maxLength) + '...';
+                        }
+                        return text;
+                        }
+                        %>
+                  </p>
+                </div>
+              </div>
+              <div>
+                <div class="playlist-info2">
+                  <button onclick="location.href='/Dashboard/Playlist/PlaylistEdit/<%= playlist.id %>'">Edit</button>
+                  <!-- <button2 onclick="location.href='/Dashboard/Playlist/PlaylistDelete/<%= playlist.id %>' ">Delete</button2>  -->
+                  <button2 onclick="deletePlaylist('<%= playlist.id %>')">Delete</button2>
+                </div>
+              </div>
+            </div>
+              </div>
+              <% }); %>
+                <% } else { %>
+                  <p>No playlists available.</p>
+                  <% } %>
+        </div>
+    
+    </div>
+    <script src="/javaScripts/playlist.js"></script>
+    <script>
+      let searchInput = document.getElementById('searchInput');
+
+      function filterPlaylists() {
+        const filter = searchInput.value.toLowerCase();
+        const playlists = document.querySelectorAll('.playlist-items');
+        playlists.forEach(playlist => {
+          const playlistName = playlist.querySelector('.playlist-info p').textContent.toLowerCase();
+          if (playlistName.includes(filter)) {
+            playlist.style.display = '';
+          } else {
+            playlist.style.display = 'none';
+          }
+        });
+      }
+
+      searchInput.addEventListener('input', filterPlaylists);
+
+      window.addEventListener('load', filterPlaylists);
+
+
+
+
+
+
+
+
+      async function deletePlaylist(playlistId) {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              const response = await fetch(`/Dashboard/Playlist/PlaylistDelete/${playlistId}`, {
+                method: 'post',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+
+              if (!response.ok) {
+                throw new Error('Your playlist has been deleted.');
+              }
+
+              const responseData = await response.json();
+              console.log('Playlist deleted:', responseData);
+
+              Swal.fire(
+                'Deleted!',
+                'Your playlist has been deleted.',
+                'success'
+              ).then(() => {
+                window.location.reload();
+              });
+            } catch (error) {
+              console.error('Error deleting playlist:', error);
+              Swal.fire(
+                'Deleted!',
+                'Your playlist has been deleted.',
+                'success'
+              ).then(() => {
+                window.location.reload();
+              }
+
+              );
+            }
+          }
+        });
+      }
+
+      window.deletePlaylist = deletePlaylist;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

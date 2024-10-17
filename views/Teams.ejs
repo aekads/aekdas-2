@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+    <link rel="stylesheet" href="/css/playlist.css" />
+  <link rel="stylesheet" href="/css/font.css" />
+    <link rel="stylesheet" href="/css/teams.css" />
+  </head>
+  <body>
+    <%- include('Dashboard') %>
+    <div class="teams">
+      <div class="home-playlist">
+        <p>Home><b>Dashboard</b></p>
+    </div>
+
+      <div class="member">
+        <div class="members">
+            <a href="/admin/users">Members</a>
+        </div>
+        <div class="New-members">
+            <a href="/Dashboard/Teams/Addmember">New Member</a>
+        </div>
+        <div class="Logs">
+            <a href="#">Logs</a>
+        </div>
+      </div>
+
+       <div class="member-form">
+        <form action="/Dashboard/Teams/Addmember" method="post">
+         <div class="form">
+          <% if (message) { %>
+            <p><%= message %></p>
+          <% } %>
+            <div class="formdata">
+                <label>Member Name</label>
+                <input type="text" required name="memberName" />
+              </div>
+              <div class="formdata">
+                <label>Member Email</label>
+                <input type="email" required name="memberEmail" />
+              </div>
+              <div class="formdata">
+                <label>Select Role</label>
+                <select name="role">
+                  <option value="Editor">Editor</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Viewer">Viewer</option>
+                </select>
+              </div>
+              <div class="formdata">
+                <label>Login Password</label>
+                <input type="password" required name="memberPassword" />
+              </div>
+              <div class="formdata btn">
+                <input type="submit" value="Add member"  />
+              </div>
+         </div>
+        </form>
+      </div> 
+
+      
+    </div>
+  </body>
+</html>

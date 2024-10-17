@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+    <link rel="stylesheet" href="/css/library.css">
+  <link rel="stylesheet" href="/css/font.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <%- include('Dashboard') %>
+
+    <div class="library">
+        <div class="home-library">
+            <p>Home><b>Library</b></p>
+        </div>
+        <div class="media-widgets">
+            <div class="media">
+                <p>Media</p>
+            </div>
+            <div class="widgets">
+                <p>Widgets</p>
+            </div>
+        </div>
+        <div class="media-info">
+            <div class="left">
+                <div class="media-allFiles">
+                    <h6>ALL MEDIA FILES</h6>
+                    <p>TOTAL FILES - <b><%- fileCount %></b> </p>
+                </div>
+            </div>
+            <div class="right">
+                <div class="media-category">
+                    <button class="media-all"><a href="/Dashboard/Library/">All</a></button>
+                    <button class="media-photos"><a href="/Dashboard/Library/Photos">Photos</a></button>
+                    <button class="media-videos"><a href="/Dashboard/Library/Videos">Videos</a></button>
+                </div>
+                <div class="media-search">
+                    <input type="search" name="search" id="search" placeholder="Search">
+                </div>
+                <div class="media-btn">
+                    <button class="custom-file-button" onclick="triggerFileInput()">Upload Image</button>
+                    <input type="file" id="imageInput" accept="image/*" required>
+                    <button class="media-btn-upload" id="uploadButton">Upload video</button>
+                    <form id="uploadForm" action="/Dashboard/Library/UploadMedia" method="POST" enctype="multipart/form-data" style="display: none;">
+                        <input type="file" name="file" id="fileInput">
+                        <button type="submit" id="submitBtn">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <% if (mediafiles && mediafiles.length === 0) { %>
+            <!-- No files uploaded message -->
+            <div class="mediaShow-nofile">
+                <div class="nofile">
+                    <svg width="54" height="54" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_4002_445)">
+                            <path d="M16 16L12 12L8 16" stroke="#464849" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M12 12V21" stroke="#464849" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M20.3914 18.39C21.3668 17.8583 22.1373 17.0169 22.5813 15.9986C23.0253 14.9804 23.1176 13.8432 22.8436 12.7667C22.5696 11.6901 21.9449 10.7355 21.0681 10.0534C20.1913 9.37137 19.1123 9.00072 18.0014 8.99998H16.7414C16.4387 7.82923 15.8746 6.74232 15.0914 5.82098C14.3082 4.89964 13.3263 4.16783 12.2195 3.68059C11.1128 3.19335 9.90998 2.96334 8.70154 3.00787C7.49311 3.05239 6.31049 3.37028 5.2426 3.93765C4.17471 4.50501 3.24934 5.30709 2.53605 6.28357C1.82276 7.26004 1.34012 8.38552 1.1244 9.57538C0.908695 10.7652 0.96553 11.9885 1.29064 13.1532C1.61575 14.318 2.20067 15.3938 3.00143 16.3"
+                                stroke="#464849" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M16 16L12 12L8 16" stroke="#464849" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_4002_445">
+                                <rect width="24" height="24" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span>Browse Files(.jpg, .jpeg, .png, .mp4)</span>
+                </div>
+            </div>
+        <% } else { %>
+            <!-- Show media files -->
+            <div class="show-media">
+                <% mediafiles.forEach(function(file) { %>
+                    <div class="media-container" data-filename="<%= file.filename.toLowerCase() %>">
+                        <% if (file.type && file.type.startsWith('image/')) { %>
+                            <img src="<%= file.url %>" alt="Image" class="media-item image-item">
+                        <% } else if (file.type && file.type.startsWith('video/')) { %>
+                            <video controls class="media-item video-item" preload="metadata">
+                                <source src="<%= file.url %>" type="<%= file.type %>">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div style="display: flex; justify-content: center;">
+                                <p style="margin-top: 3px;">
+                                    <%= file.filename.length > 10 ? file.filename.substring(0, 10) + '...' : file.filename %>
+                                </p>
+                                <form style="justify-content:flex-end; margin: 0px 10px; margin-top: 2px;" action="/Dashboard/Library/DeleteMedia/<%= file.id %>" method="POST" class="delete-form">
+                                    <button type="submit" class="delete-btn" style="justify-content:flex-end;">
+                                        <svg style="justify-content:flex-end;" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="15" cy="15" r="15" fill="#DC3545" />
+                                            <path d="M8.25 10.5H9.75H21.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M12 10.5V9C12 8.60218 12.158 8.22064 12.4393 7.93934C12.7206 7.65804 13.1022 7.5 13.5 7.5H16.5C16.8978 7.5 17.2794 7.65804 17.5607 7.93934C17.842 8.22064 18 8.60218 18 9V10.5M20.25 10.5V21C20.25 21.3978 20.092 21.7794 19.8107 22.0607C19.5294 22.342 19.1478 22.5 18.75 22.5H11.25C10.8522 22.5 10.4706 22.342 10.1893 22.0607C9.90804 21.7794 9.75 21.3978 9.75 21V10.5H20.25Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M13.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M16.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        <% } else { %>
+                            <p>Unsupported file type: <%= file.type %></p>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
+    <div id="videoSection" style="display:none;">
+        <h2 style="display:none;">Converted Video</h2>
+        <video id="video" controls style="display:none;"></video>
+        <p style="display:none;">Video URL: <a id="videoUrl" href="" target="_blank" ></a></p>
+      </div>
+    <script>
+        // Handle Upload button click
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        // Show progress bar alert when uploading
+        document.getElementById('fileInput').addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                const file = this.files[0];
+                const allowedTypes = [ 'video/mp4'];
+
+                if (!allowedTypes.includes(file.type)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'File not supported. Please upload a MP4 file.',
+                    });
+                    return; // Exit the function if file type is not supported
+                }
+
+                Swal.fire({
+                    title: 'Uploading...',
+                    html: 'Please wait while your file is being uploaded.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Submit the form
+                document.getElementById('uploadForm').submit();
+            }
+        });
+
+        // Handle form submission for delete action
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                // Show confirmation alert
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to delete this file?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Deleting...',
+                            html: 'Please wait while the file is being deleted.',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        // Submit the form
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        document.getElementById("search").addEventListener("input", function () {
+            const searchValue = this.value.toLowerCase();
+            const mediaContainers = document.querySelectorAll(".media-container");
+
+            mediaContainers.forEach(container => {
+                const fileName = container.getAttribute("data-filename");
+
+                if (fileName.includes(searchValue)) {
+                    container.style.display = "block";
+                } else {
+                    container.style.display = "none";
+                }
+            });
+        });
+
+
+
+
+
+        
+        let videoBlob; // Variable to store the video blob
+        function triggerFileInput() {
+      document.getElementById('imageInput').click();
+    }
+
+    document.getElementById('imageInput').addEventListener('change', createVideo);
+
+
+    async function createVideo() {
+    const imageInput = document.getElementById('imageInput');
+    if (imageInput.files.length === 0) {
+      Swal.fire('Error', 'Please upload an image.', 'error');
+      return;
+    }
+
+    const file = imageInput.files[0];
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(img.src);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      const frames = 11 * 30; // 10 seconds at 30 fps
+      const videoStream = canvas.captureStream(30); // 30 fps
+      const mediaRecorder = new MediaRecorder(videoStream, {
+        mimeType: 'video/mp4' // Changed to video/mp4 for better compatibility
+      });
+      const chunks = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.push(e.data);
+        }
+      };
+
+      // Show conversion message
+      const swalConversion = Swal.fire({
+        title: 'Converting to Video...',
+        text: 'Please wait while your image is being converted.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      mediaRecorder.onstop = async () => {
+        videoBlob = new Blob(chunks, { type: 'video/mp4' });
+        const videoUrl = URL.createObjectURL(videoBlob);
+
+        document.getElementById('video').src = videoUrl;
+        document.getElementById('videoUrl').href = videoUrl;
+        document.getElementById('videoUrl').innerText = videoUrl;
+        document.getElementById('videoSection').style.display = 'block';
+
+        // Close the conversion message
+        swalConversion.close();
+
+        // Automatically upload to Cloudinary after conversion
+        await uploadToCloudinary();
+      };
+
+      mediaRecorder.start();
+      console.log('MediaRecorder started');
+
+      let frame = 0;
+      const interval = setInterval(() => {
+        if (frame < frames) {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          frame++;
+        } else {
+          clearInterval(interval);
+          mediaRecorder.stop();
+          console.log('MediaRecorder stopped');
+        }
+      }, 1000 / 30);
+
+      console.log('Interval set');
+    };
+  }
+
+  async function uploadToCloudinary() {
+    if (!videoBlob) {
+      Swal.fire('Error', 'No video to upload. Please create a video first.', 'error');
+      return;
+    }
+
+    // Show loading indicator
+    const swalLoading = Swal.fire({
+      title: 'Processing...',
+      text: 'Please wait while your video is being uploaded.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    const formData = new FormData();
+    formData.append('file', videoBlob, 'video.mp4'); // Upload as MP4
+    formData.append('upload_preset', 'dhvanil'); // Replace with your upload preset
+    formData.append('resource_type', 'video');
+
+    try {
+      const response = await fetch('https://api.cloudinary.com/v1_1/dqzn7ywcp/video/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      console.log('Cloudinary URL:', data.secure_url);
+
+      // Update the video URL with the Cloudinary URL
+      document.getElementById('video').src = data.secure_url;
+      document.getElementById('videoUrl').href = data.secure_url;
+      document.getElementById('videoUrl').innerText = data.secure_url;
+
+      // Extract additional data if available
+      const filename = data.public_id; // Example for filename
+      const duration = data.duration || '00:00:00'; // Default duration
+      const size = data.bytes; // Size in bytes
+
+      // Store the Cloudinary URL in PostgreSQL
+      await storeInDatabase(data.secure_url, 'video/mp4', filename, duration, size); // Pass all data
+
+      // Close the loading indicator
+      Swal.close();
+
+      Swal.fire('Success', 'Video uploaded and stored successfully!', 'success').then(() => {
+      // Reload the page after the success message
+      window.location.reload();
+    });
+    } catch (error) {
+      console.error('Error uploading video to Cloudinary:', error);
+      Swal.close();
+      Swal.fire('Error', 'Error uploading video to Cloudinary.', 'error');
+    }
+  }
+
+  async function storeInDatabase(videoUrl, type, filename, duration, size) {
+    try {
+      const response = await fetch('/Dashboard/Library/storeVideoUrl', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ videoUrl, type, filename, duration, size })
+      });
+      const data = await response.json();
+      console.log('Stored in database:', data);
+    } catch (error) {
+      console.error('Error storing video URL in database:', error);
+      Swal.fire('Error', 'Error storing video URL in database.', 'error');
+    }
+  }
+
+  document.getElementById('imageInput').addEventListener('change', createVideo);
+
+    </script>
+</body>
+</html>

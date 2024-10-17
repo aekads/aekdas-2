@@ -1,0 +1,146 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register</title>
+        <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="/css/teams.css" />
+        <link rel="stylesheet" href="/css/screen.css" />
+        <link rel="stylesheet" href="/css/playlist.css" />
+  <link rel="stylesheet" href="/css/font.css" />
+
+    </head>
+    <body>
+
+        <%- include('Dashboard') %>
+        <div class="teams">
+            <div class="home-playlist">
+                <p>Home><b>Teams</b></p>
+            </div>
+    
+          <div class="member">
+            <div class="members">
+                <a href="/admin/users">Members</a>
+            </div>
+            <div class="New-members">
+                <a href="/Dashboard/Teams/Addmember">New Member</a>
+            </div>
+            <div class="Logs">
+                <a href="/admin/logs">Logs</a>
+            </div>
+          </div>
+          
+
+
+
+
+          <div class="mainData">
+            <div class="member-form">
+            <form action="/register" method="post">
+             <div class="form">
+            
+                <div class="formdata">
+                    <label>Member Name</label>
+                    <input type="text" id="name" name="name" required>
+                  </div>
+                  <div class="formdata">
+                    <label>Member Email</label>
+                    <input type="email" id="email" name="email" required>
+                  </div>
+                  <div class="formdata">
+                    <label>Select Role</label>
+                    <select style="padding: 11px 10px;" id="role" name="role" required>
+                        <option value="admin">Admin</option>
+                        <option value="editor">Editor</option>
+                        <option value="viewer">Viewer</option>
+                      </select>
+                  </div>
+                  <div class="formdata">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                  </div>
+                  <div style="
+
+                                            color: #fffefe;
+                                            display: flex;
+                                            flex-direction: row;
+                                            justify-content: center;
+                                            align-items: center;
+                                            padding: 2px 10px;
+                                            gap: 9px;
+                                            
+                                            margin: 0 auto;
+                                            width: 80%;
+                                            height: 40px;
+                                            
+                                            background: #0D6EFD;
+                                            border-radius: 12px;
+                                            
+                                            /* Inside auto layout */
+                                            flex: none;
+                                            order: 4;
+                                            flex-grow: 0;
+                                            " class="formdata">
+                    <button type="submit">Register</button>
+                  </div>
+                 
+             </div>
+            </form>
+        </div>
+        <div class="table1">
+            <table>
+                <thead>
+                  <tr>
+                    <th>PERMISSIONS</th>
+                    <th>CREATE</th>
+                    <th>VIEW</th>
+                    <th>UPDATE</th>
+                    <th>DELETE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Screen</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Playlist</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Library</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Reports</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Logs</td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div> 
+         
+        </div> 
+    </body>
+    </html>
