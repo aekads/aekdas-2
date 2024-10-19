@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <link rel="stylesheet" href="/css/groupScreen.css" />
+  <link rel="stylesheet" href="/css/font.css" />
+</head>
+
+<body>
+  <div class="group">
+    <div class="header">
+      <div class="group-screen">
+        <p>Home > <b>Group Screen</b></p>
+      </div>
+      <div class="group-screen-btn">
+        <button onclick="goBack()">Go Back</button>
+        <button onclick="saveGroup()">Save Group</button>
+      </div>
+    </div>
+
+    <div class="create-group">
+      <div class="form-class">
+        <label>Group Name</label>
+        <input type="text" name="groupName" value="<%= group ? group.group_name : '' %>" required />
+      </div>
+      <div class="form-class">
+        <label>Group Description</label>
+        <input type="text" name="description" value="<%= group ? group.group_description : '' %>" required />
+      </div>
+    </div>
+
+    <div class="heading">
+      <h3>Select Screens to Create Group</h3>
+      <h3>Selected Screens</h3>
+    </div>
+
+    <div class="selection-screens">
+      <div class="select-screen">
+        <input type="search" id="searchInput" placeholder="Search">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>PAIRING CODE</th>
+              <th>SCREEN NAME</th>
+              <th>SCREEN LOCATION</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%# console.log("group : ",group); %>
+            <% if (screens && screens.length) { %>
+              <% screens.forEach(screen => { %>
+                <tr>
+                  <td>                  
+                    <input type="checkbox" name="checkbox" onclick="selectScreen(this)"
+                      <% if (group && group.selectedscreens && group.selectedscreens.some(selected => selected.pairingcode === screen.pairingcode)) { %> checked <% } %>
+                    >
+                  </td>
+                  <td id="screen.pairingcode">
+                    <%= screen.pairingcode %>
+                  </td>
+                  <td id="screen.screenname">
+                    <%= screen.screenname %>
+                  </td>
+                  
+                  <td id="screen.location">
+                    <%= screen.location %>
+                  </td>
+                  <td id="screen.status" class="status-cell ">                  
+                      <span class="<%= screen.deleted ? 'offline' : 'online' %>"><%= screen.deleted ? 'Offline' : 'Online' %></span>                  
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="6">No screens found</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <div class="selected-screen">
+        <table id="selectedScreensTable">
+          <thead>
+            <tr>
+              <th>SR.NO</th>
+              <th>SCREEN NAME</th>
+              <th>SCREEN TAG</th>
+              <th>SCREEN LOCATION</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <% if (group && group.selectedscreens && group.selectedscreens.length) { %>
+              <% group.selectedscreens.forEach((screen, index) => { %>
+                <tr>
+                  <td>
+                    <%= index + 1 %>
+                  </td>
+                  <td>
+                    <%= screen.screenname %>
+                  </td>
+                  <td>
+                    <%= screen.tags %>
+                  </td>
+                  <td>
+                    <%= screen.location %>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="4">No screens selected</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const group = `<%- JSON.stringify(group || {}) %>`;
+  </script>
+
+  <script src="/javaScripts/groupScreen.js"></script>
+
+</body>
+
+</html>

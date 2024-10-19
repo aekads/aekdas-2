@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Playlist</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+    <link rel="stylesheet" href="/css/newPlaylist.css">
+  <link rel="stylesheet" href="/css/font.css" />
+</head>
+
+<body>
+    <div class="newPlaylist">
+        <div class="header">
+            <button2 onclick="exitfunction()">Exit</button2>
+           
+               
+                <input type="text" style="/* Search */
+
+                box-sizing: border-box;
+                
+                /* Auto layout */
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 4px 8px;
+                gap: 8px;
+                
+                position: absolute;
+                width: 209px;
+                height: 28px;
+                left: 97px;
+                top: 20px;
+                
+                background: rgba(28, 28, 28, 0.05);
+                border: 0.5px solid rgba(28, 28, 28, 0.4);
+                box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+                border-radius: 8px;
+                " id="playlistname" value="<%= playlist.playlistname %>" >
+            
+            <button id="previewButton">Preview</button>
+            <button id="selectScreenButton" style="margin-left: 10px;">Next</button>
+            <div id="videoOverlay">
+                <div id="videoContainer">
+                    <!-- Videos will be displayed here -->
+                </div>
+                <button id="closeButton">Close</button>
+            </div>
+        </div>
+        <div class="main">
+            <div class="media-sidebar">
+                <div class="media-widgets">
+                    <p class="media">Media</p>
+                    <p class="widgets">Widgets</p>
+                </div>
+                <div class="search-upload" style="display: none;">
+                    <input type="search" name="search" placeholder="Search">
+                    <button class="media-btn-upload" id="uploadButton"><svg width="30" height="30" viewBox="0 0 30 30"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="15" cy="15" r="15" fill="#0D6EFD" />
+                            <path
+                                d="M21.75 17.25V20.25C21.75 20.6478 21.592 21.0294 21.3107 21.3107C21.0294 21.592 20.6478 21.75 20.25 21.75H9.75C9.35218 21.75 8.97064 21.592 8.68934 21.3107C8.40804 21.0294 8.25 20.6478 8.25 20.25V17.25"
+                                stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M18.75 12L15 8.25L11.25 12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 8.25V17.25" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <form id="uploadForm" action="/Dashboard/Playlist/UploadFile" method="POST" enctype="multipart/form-data" style="display: none;">
+                        <input type="file" name="file" id="fileInput">
+                        <button type="submit" id="submitBtn">Upload</button>
+                    </form>
+                </div>
+                <div class="media-category">
+                    <button class="media-all"><a href="/Dashboard/Playlist/newPlaylist">All</a></button>
+                    <button class="media-photos" style="display: none;"><a href="/Dashboard/Playlist/Photoes">Photos</a></button>
+                    <button class="media-videos" style="display: none;"><a href="/Dashboard/Playlist/Videos">Videos</a></button>
+                </div>
+                <div class="show-media">
+                    <!-- Media files loop -->
+                    <% mediafiles.forEach(function(file, index) { %>
+                        <div class="media-container" data-index="<%= index %>">
+                            <% if (file.type && file.type.startsWith('image/')) { %>
+                                <img src="<%= file.url %>" alt="Image" class="media-item image-item" data-layout-name="<%= file.filename %>" data-duration="<%= file.durationString %>" data-size="<%= file.size %>MB">
+                            <% } else if (file.type && file.type.startsWith('video/')) { %>
+                                <video controls class="media-item video-item" preload="metadata">
+                                    <source src="<%= file.url %>" type="<%= file.type %>" data-layout-name="<%= file.filename %>" data-duration="<%= file.durationString %>" data-size="<%= file.size %> MB">>
+                                    Your browser does not support the video tag.
+                                </video>
+                            <% } else { %>
+                                <p>Unsupported file type: <%= file.type %></p>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            <div class="middle">
+                <div class="img-preview">
+                </div>
+                <div class="img-slider" id="imgSlider">
+                    <% for (let i = 1; i <= 10; i++) { %>
+                        <% const url = playlist && playlist[`slot${i}`] ? playlist[`slot${i}`] : ''; %>
+                        <div class="mediaforSlider">
+                            
+                            <div class="media-content">
+                                <% if (url && url.trim() !== '') { %>
+                                    <% if (url.endsWith('.mp4')) { %>
+                                        <video controls class="video-photo">
+                                            <source src="<%= url %>" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    <% } else { %>
+                                        <img src="<%= url %>" alt="Slot <%= i %>" class="video-photo">
+                                    <% } %>
+                                <% } %>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;margin: 10px 10px -20px 10px ;">
+                                <button onclick="deleteMedia(event)" style="background-color: crimson;color: floralwhite;border: navy;padding: 0px 15px;border-radius: 10px;">Delete</button>
+                                <button class="add-media-button" style="background-color: #0d6efd; color: floralwhite;border: navy;padding: 4px 15px;border-radius: 10px;"data-index="<%= i %>">Add</button>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="layout-info">
+                <div class="info-class">
+                    <p>Layout Name</p>
+                    <input type="text" id="layout-name" readonly>
+                </div>
+                <div class="info-class">
+                    <p>Duration</p>
+                    <input type="text" id="duration" readonly>
+                </div>
+                <div class="info-class">
+                    <p>Size</p>
+                    <input type="text" id="size" readonly>
+                </div>
+                <div class="info-class" style="display: none;">
+                    <p>SCREEN IDS</p>
+                    <input type="text" id="screenIDS" value="<%= playlist.screen_id %>"  >
+                </div>
+                <div class="info-class" style="display: none;">
+                    <p>Playlist Name</p>
+                    <input type="text" id="playlistname" value="<%= playlist.playlistname %>" >
+                </div>
+                <div class="info-class" style="display: none;">
+                    <p>Playlist Description</p>
+                    <input type="text" id="playlistdescription" value="<%= playlist.playlistdescription %>">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        function exitfunction() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure you want to exit and discard changes?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, exit',
+                cancelButtonText: 'No, stay'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.history.back();
+                }
+            });
+        }
+
+        function deleteMedia(event) {
+            const mediaContainer = event.target.closest('.mediaforSlider');
+            if (mediaContainer) {
+                const mediaContent = mediaContainer.querySelector('.media-content');
+                if (mediaContent) {
+                    mediaContent.innerHTML = ''; // Clear the inner HTML of the media-content div
+                } else {
+                    console.error('Error: .media-content not found');
+                }
+            } else {
+                console.error('Error: .mediaforSlider container not found');
+            }
+        }
+
+        let selectedSlotIndex = null; // Variable to store the selected slot index
+
+        // Function to handle adding media to the selected slot
+        function addMediaToSlot(mediaItem) {
+            if (selectedSlotIndex !== null) {
+                const clonedMedia = mediaItem.cloneNode(true);
+                clonedMedia.classList.add('video-photo'); // Add "video-photo" class
+                const slotContainer = document.querySelector(`.mediaforSlider:nth-child(${selectedSlotIndex}) .media-content`);
+                if (slotContainer) {
+                    slotContainer.innerHTML = '';
+                    slotContainer.appendChild(clonedMedia);
+                }
+                selectedSlotIndex = null; // Reset selected slot index after adding media
+            }
+        }
+
+        // Function to handle Add button click
+        function handleAddButtonClick(slotIndex) {
+            Swal.fire({
+                title: 'Select a video',
+                text: 'Select a video from media files',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+            selectedSlotIndex = slotIndex;
+        }
+
+        // Attach event listeners to Add buttons
+        document.addEventListener('DOMContentLoaded', function () {
+            const addButtons = document.querySelectorAll('.add-media-button');
+            addButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    const slotIndex = event.target.getAttribute('data-index');
+                    handleAddButtonClick(slotIndex);
+                });
+            });
+
+            // Attach click event listeners to media items in show-media
+            const mediaItems = document.querySelectorAll('.show-media .media-item');
+            mediaItems.forEach(mediaItem => {
+                mediaItem.addEventListener('click', function () {
+                    if (selectedSlotIndex !== null) {
+                        addMediaToSlot(mediaItem);
+                    }
+                });
+            });
+
+            let urls = [];
+
+            const selectScreenButton = document.getElementById('selectScreenButton');
+            selectScreenButton.addEventListener('click', function () {
+                const mediaSlots = document.querySelectorAll('.img-slider .media-content');
+                urls = [];
+                mediaSlots.forEach(slot => {
+                    const mediaItem = slot.querySelector('.video-photo');
+                    if (mediaItem) {
+                        const url = mediaItem.tagName === 'IMG' ? mediaItem.src : mediaItem.querySelector('source').src;
+                        urls.push(url);
+                        console.log("URL added:", url);
+                    }
+                });
+
+                if (urls.length === 0) {
+                    Swal.fire({
+                        title: 'No layout selected',
+                        text: 'Please select at least one layout.',
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                const screenIDS = document.querySelector('#screenIDS').value;
+                const playlistName = document.querySelector('#playlistname').value;
+                const playlistDescription = document.querySelector('#playlistdescription').value;
+
+                const playlistId = getIdFromUrl();
+                sessionStorage.setItem('playlistId', playlistId);
+                sessionStorage.setItem('playlistUrls', JSON.stringify(urls));
+                sessionStorage.setItem('screenIDS', screenIDS);
+                sessionStorage.setItem('playlistName', playlistName);
+                sessionStorage.setItem('playlistDescription', playlistDescription);
+
+                window.location.href = "/Dashboard/Playlist/PlaylistEdit/plylistEditScreen";
+            });
+
+            let currentVideoIndex = 0; // Track current video index
+            let isPlaying = false; // Track if a video is currently playing
+
+            // Function to create video elements with autoplay
+            function createVideoElement(url) {
+                const video = document.createElement('video');
+                video.src = url;
+                video.controls = false;
+                video.autoplay = false; // Autoplay set to false initially
+                video.style.display = 'none'; // Hide video initially
+                return video;
+            }
+
+            // Function to play the next video in sequence
+            function playNextVideo() {
+                if (currentVideoIndex < urls.length) {
+                    const videoElement = createVideoElement(urls[currentVideoIndex]);
+                    const videoContainer = document.getElementById('videoContainer');
+
+                    // Append new video element without clearing the previous video
+                    videoContainer.appendChild(videoElement);
+
+                    // Listen for when the video can play through
+                    videoElement.addEventListener('canplaythrough', () => {
+                        // Show and play the video once it is ready
+                        videoElement.style.display = 'block';
+                        videoElement.play().then(() => {
+                            // Hide the previous video, if any
+                            const previousVideos = videoContainer.querySelectorAll('video:not([style*="display: none"])');
+                            previousVideos.forEach((prevVideo) => {
+                                if (prevVideo !== videoElement) {
+                                    prevVideo.style.display = 'none';
+                                    prevVideo.pause();
+                                    prevVideo.remove();
+                                }
+                            });
+
+                            // Add event listener to handle end of video playback
+                            videoElement.addEventListener('ended', () => {
+                                currentVideoIndex++;
+                                if (currentVideoIndex < urls.length) {
+                                    playNextVideo(); // Play the next video after this one ends
+                                } else {
+                                    isPlaying = false; // All videos played, reset isPlaying flag
+                                }
+                            });
+                        }).catch((error) => {
+                            console.error('Error playing video:', error);
+                            isPlaying = false; // Reset isPlaying flag on error
+                        });
+                    });
+                }
+            }
+
+            // Function to display videos in the modal overlay
+            function displayVideos() {
+                // Show the modal overlay
+                const videoOverlay = document.getElementById('videoOverlay');
+                videoOverlay.style.display = 'flex';
+
+                // Populate URLs from media slots
+                const mediaSlots = document.querySelectorAll('.img-slider .media-content');
+                urls = [];
+                mediaSlots.forEach(slot => {
+                    const mediaItem = slot.querySelector('.video-photo');
+                    if (mediaItem) {
+                        const url = mediaItem.tagName === 'IMG' ? mediaItem.src : mediaItem.querySelector('source').src;
+                        urls.push(url);
+                        console.log("URL added:", url);
+                    }
+                });
+
+                if (urls.length === 0) {
+                    Swal.fire({
+                        title: 'No layout selected',
+                        text: 'Please select at least one layout.',
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                // Start playing videos if not already playing
+                if (!isPlaying) {
+                    isPlaying = true;
+                    playNextVideo();
+                }
+            }
+
+            // Event listener for preview button click
+            document.getElementById('previewButton').addEventListener('click', displayVideos);
+
+            // Event listener for closing modal overlay
+            document.getElementById('closeButton').addEventListener('click', function () {
+                const videoOverlay = document.getElementById('videoOverlay');
+                const videoContainer = document.getElementById('videoContainer');
+
+                // Pause current video (if any)
+                const currentVideo = videoContainer.querySelector('video');
+                if (currentVideo) {
+                    currentVideo.pause();
+                }
+
+                // Hide the modal overlay
+                videoOverlay.style.display = 'none';
+
+                // Reset current video index and isPlaying flag
+                currentVideoIndex = 0;
+                isPlaying = false;
+            });
+        });
+
+        function getIdFromUrl() {
+            const pathSegments = window.location.pathname.split('/');
+            return pathSegments[pathSegments.length - 1]; // Assuming the ID is the last segment
+        }
+    </script>
+</body>
+
+</html>

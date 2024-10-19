@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Playlist</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+    <link rel="stylesheet" href="/css/newPlaylist.css">
+    <!-- SweetAlert CSS -->
+
+  <link rel="stylesheet" href="/css/font.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+</head>
+
+<body>
+    <div class="newPlaylist">
+        <div class="header">
+            <!-- Header content, unchanged -->
+            <!-- <button onclick="sendSelectedItemsToBackend()">Publish</button> -->
+            <button onclick="exitfunction()">Exit</button>
+            <button id="previewButton" onclick="previewAlert()">Preview</button>
+            <button onclick="selectScreen()">Next</button>
+            <div id="videoOverlay">
+                <div id="videoContainer">
+                    <!-- Videos will be displayed here -->
+                </div>
+                <button id="closeButton">Close</button>
+            </div>
+        </div>
+        <div class="main">
+            <div class="media-sidebar">
+                <div class="media-widgets">
+                    <p class="media">Media</p>
+                    <p class="widgets">Widgets</p>
+                </div>
+                <div class="search-upload" style="display: none;">
+                    <input type="search" name="search" placeholder="Search">
+                    <button class="media-btn-upload" id="uploadButton"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="15" cy="15" r="15" fill="#0D6EFD" />
+                        <path d="M21.75 17.25V20.25C21.75 20.6478 21.592 21.0294 21.3107 21.3107C21.0294 21.592 20.6478 21.75 20.25 21.75H9.75C9.35218 21.75 8.97064 21.592 8.68934 21.3107C8.40804 21.0294 8.25 20.6478 8.25 20.25V17.25" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M18.75 12L15 8.25L11.25 12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M15 8.25V17.25" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    </button>
+                    <form id="uploadForm" action="/Dashboard/Playlist/UploadFile" method="POST" enctype="multipart/form-data" style="display: none;">
+                        <input type="file" name="file" id="fileInput">
+                        <button type="submit" id="submitBtn">Upload</button>
+                    </form>
+                </div>
+                <div class="media-category">
+                    <button class="media-all"><a href="/Dashboard/Playlist/newPlaylist">All</a></button>
+                    <button class="media-photos" style="display: none;"><a href="/Dashboard/Playlist/Photoes">Photos</a></button>
+                    <button class="media-videos" style="display: none;"><a href="/Dashboard/Playlist/Videos">Videos</a></button>
+                </div>
+                <div class="show-media">
+                    <!-- Media files loop -->
+                    <% mediafiles.forEach(function(file) { %>
+                        <div class="media-container">
+                            <% if (file.type && file.type.startsWith('image/')) { %>
+                                <img src="<%= file.url %>" alt="Image" class="media-item image-item" data-layout-name="<%= file.filename %>" data-duration="<%= file.durationString %>" data-size="<%= file.size %>MB">
+                                <% } else if (file.type && file.type.startsWith('video/')) { %>
+                                    <video controls class="media-item video-item" preload="metadata">
+                                        <source src="<%= file.url %>" type="<%= file.type %>" data-layout-name="<%= file.filename %>" 
+                                        data-duration="<%= file.durationString %>" 
+                                        data-size="<%= file.size %> MB">>
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <% } else { %>
+                                        <p>Unsupported file type: <%= file.type %>
+                                        </p>
+                                        <% } %>
+                        </div>
+                        <% }); %>
+                </div>
+            </div>
+            <div class="middle">
+                <div class="img-preview">
+
+                </div>
+                <div class="img-slider" id="imgSlider">
+                    
+                </div>
+            </div>
+            <div class="layout-info">
+               <div class="info-class">
+                <p>Layout Name</p>
+                <input type="text" id="layout-name" readonly>
+               </div>
+               <div class="info-class">
+                <p>Duration</p>
+                <input type="text" id="duration" readonly>
+               </div>
+               <div class="info-class">
+                <p>size</p>
+                <input type="text" id="size" readonly>
+               </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/javaScripts/newPlaylist.js"></script>
+    <script>
+    
+    </script>
+</body>
+
+</html>

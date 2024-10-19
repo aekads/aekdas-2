@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Team Logs</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <link rel="stylesheet" href="/css/teams.css" />
+  <link rel="stylesheet" href="/css/screen.css" />
+  <link rel="stylesheet" href="/css/playlist.css" />
+  <link rel="stylesheet" href="/css/font.css" />
+  <style>
+     
+    .New-members {
+  border: none;
+  color: #1c1c1ccc;
+}
+.Logs {
+  border-bottom: 2px solid #0d6efd;
+  color: #0d6efd;
+}
+  </style>
+</head>
+<body>
+
+
+    
+    <%- include('Dashboard') %>
+    <div class="teams">
+        <div class="home-playlist">
+            <p>Home><b>Teams</b></p>
+        </div>
+
+      <div class="member">
+        <div class="members">
+            <a href="/admin/users">Members</a>
+        </div>
+        <div class="New-members">
+            <a href="/Dashboard/Teams/Addmember">New Member</a>
+        </div>
+        <div class="Logs">
+            <a href="/admin/logs">Logs</a>
+        </div>
+      </div>
+      
+
+      <h1>Team Logs</h1>
+
+      <div class="container">
+        <% if (logs.length > 0) { %>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Action</th>
+                  <th>Message</th>
+                  <th>IP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% logs.forEach(log => { %>
+                  <tr>
+                    <td><%= log.createdAt %></td>
+                    <td><%= log.action %></td>
+                    <td><%= log.message %></td>
+                    <td><%= log.ip %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p>No logs found.</p>
+        <% } %>
+      </div>
+
+      <style>
+        /* General container styling */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Table container styling */
+.table-container {
+  width: 100%;
+  height: 80%;
+  overflow-y: auto; /* Adds vertical scrollbar */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: -217px;                          
+}
+
+/* Table styling */         
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+    
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+
+      </style>
+      
+     
+</body>
+</html>
