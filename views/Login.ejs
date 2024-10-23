@@ -1,0 +1,66 @@
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title>Login Screen</title>
+        <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+        <link rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" href="/css/font.css" />
+    </head>
+    <body>
+
+        
+        <div id="main">
+        
+        <div class="left">
+            <div class="logo">
+                <img src="./images/Logo.png" alt="logo file" />
+            </div>
+            <div class="para">
+                <p>Gujrat's largest Digital Screen Network</p>
+            </div>
+        </div>
+        
+        <div class="right">
+            
+            <form action="/login" method="post">
+            <div class="details">
+            
+                <div class="para1">
+                    
+                    <p>Login to Account</p>
+                </div>
+                <div class="para2">
+                    <p>Please enter your email and password to continue</p>
+                    
+                </div>
+                <div class="emailField">
+                    <label for="email">Email:</label>
+                    <!-- <input type="email" placeholder="Enter Email" name="username" required /> -->
+                    <input type="email" id="email" placeholder="Enter Email" name="email" required>
+                </div>
+                <div class="passwordField">
+                    <!-- <p class="forgetPass">Forget Password?</p> -->
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter Password" name="password" required>
+                    <!-- <input type="checkbox" />
+                    <label id="checkboxLable">Remember Password</label> -->
+                </div>
+                <div class="btn">
+                    <!-- <input type="submit" value="Sign In" /> -->
+                    <button type="submit">Login</button>
+
+                
+                </div>
+                <% if (error_msg) { %>
+                    <p style="color: red;"><%= error_msg %></p>
+                <% } %>
+            </div>
+            </form>
+        </div>
+        </div>
+
+    </body>
+    </html>
+
+

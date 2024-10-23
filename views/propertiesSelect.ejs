@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 3</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<!-- <style>
+    .page3-table{
+        width: 90%;
+        margin: 5% auto;
+        background-color: #FFFFFF;
+        box-shadow: 0px 4px 10px 0px #00000040;
+padding: 2%;
+    }
+    .selection-screens {
+        width: 100%;
+        display: flex;
+    }
+
+    #searchInput {
+        width: 30%;
+        padding: 5px 10px;
+        /* margin-bottom: 5px; */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+        font-weight: 400;
+        font-size: 15px;
+        border: none;
+        text-align: center;
+        border: 1px solid rgb(207, 190, 190);
+    }
+
+    th {
+        background-color: #f2f2f2;
+        color: #363636;
+        border: 1px solid rgb(207, 190, 190);
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+        color: #202224;
+    }
+
+    button {
+        background-color: rgb(128, 0, 21);
+        margin-left: 45%;
+        margin-top: 1%;
+        padding: 10px 30px;
+        border-radius: 5px;
+        border: none;
+        color: rgb(255, 255, 255);
+    }
+
+    .filter-bar {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid black;
+    }
+
+    .filter-by {
+        font-size: 14px;
+        margin-right: 10px;
+        border: 1px solid blue;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        margin-right: 15px;
+        border: 1px solid red;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+    .dropdown-content label {
+        display: block;
+        padding: 8px 16px;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .reset-filters {
+        color: red;
+        text-decoration: none;
+        font-size: 14px;
+        margin-left: auto;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .filter-count {
+        color: red;
+        font-size: 16px;
+        margin-left: 5px;
+    }
+
+    .reset-filters:hover {
+        text-decoration: underline;
+    }
+</style> -->
+<style>
+    .page3-table {
+    margin: 25px auto;
+    padding: 20px;
+    width: 90%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow:auto ;
+}
+
+.filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-bar span.filter-by {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.dropdown, select {
+    margin-right: 10px;
+    position: relative;
+}
+
+.dropbtn {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 200px;
+    padding: 1%;
+    margin-right: 4px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content label {
+    margin-right: 10px;  /* Keeps the margin for separation */
+    padding: 5px 10px;   /* Adds padding for better click area */
+    position: relative;  /* This is fine for relative positioning */
+    display: inline-block;  /* Ensures proper alignment */
+    cursor: pointer;  /* Makes it clear that the label is clickable */
+}
+
+
+.dropdown-content label:hover {
+    background-color: #ffffff;  /* Slight background color change */
+    transition: background-color 0.3s ease;  /* Smooth transition */
+}
+
+
+#priceDropdown {
+    -webkit-appearance: none;  /* Removes arrow in Safari and Chrome */
+    -moz-appearance: none;     /* Removes arrow in Firefox */
+    appearance: none;          /* Standard way to remove the arrow */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+}
+.option{
+    margin-right: 10px;
+    padding: 5px 10px;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+#searchInput {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+    width: 200px;
+}
+
+button {
+    color: #ff5252;
+    /* color: white; */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+.main-table h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.main-table p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.select-screen {
+    margin-top: 20px;
+/* border: 1px solid black; */
+max-height: 650px; /* Set the desired max height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    overflow-x: hidden; /* Disable horizontal scrolling (optional) */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: center;
+    
+}
+
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+thead th {
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+#noResultsMessage {
+    color: red;
+}
+.button{
+    margin-left: 50%;
+    background: #0D6EFD;
+    color: white;
+
+}
+
+.filter-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.filter-checkbox {
+  margin-right: 8px; 
+  margin-top: 2px;
+}
+
+.filter-checkbox:checked + .filter-label::after {
+  content: "\00a0"; /* Adds a non-breaking space */
+  display: inline-block;
+  width: 10px; /* Adds 8px space */
+}
+
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    text-align: center;
+}
+
+.custom-btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.warning-btn {
+    background-color: #ffc107; /* Warning color similar to Bootstrap */
+    color: #000;
+}
+
+.primary-btn {
+    background-color: #007bff; /* Primary color similar to Bootstrap */
+    color: #fff;
+}
+
+.custom-btn:hover {
+    opacity: 0.9;
+}
+
+</style>
+<body>
+
+    <p id="proposalID" style="display: none;"> <%= proposalId %></p>
+
+    <div class="page3-table">
+
+    
+    <div class="filter-bar">
+        <span class="filter-by">Filter by</span>
+
+        <!-- City Dropdown -->
+        <div class="dropdown">
+            <p class="dropbtn">City</p>
+            <div class="dropdown-content">
+                <label class="filter-label">
+                    <input type="checkbox" value="ahmedabad" class="filter-checkbox" data-filter="city"
+                        <%= selectedProposal && selectedProposal.length > 0 && selectedProposal[0].city && selectedProposal[0].city.includes('Ahmedabad') ? 'checked' : '' %>
+                    >Ahmedabad
+                </label>
+                
+                <label class="filter-label">
+                    <input type="checkbox" value="gandhinagar" class="filter-checkbox" data-filter="city"
+                        <%= selectedProposal && selectedProposal.length > 0 && selectedProposal[0].city && selectedProposal[0].city.includes('Gandhinagar') ? 'checked' : '' %>
+                    >Gandhinagar
+                </label>
+                
+               
+            </div>
+        </div>
+        
+       
+        <!-- Property Price Dropdown -->
+        <div class="dropdown">
+            <p class="dropbtn">Property Price</p>
+            <div class="dropdown-content">
+                <label><input type="checkbox" name="priceFilter" value="ascending" class="filter-checkbox" data-filter="price">Ascending</label>
+                <label><input type="checkbox" name="priceFilter" value="descending" class="filter-checkbox" data-filter="price">Descending</label>
+            </div>
+        </div>
+        
+
+        <!-- Screen Size Dropdown -->
+        <div class="dropdown">
+            <p class="dropbtn">Screen Size</p>
+            <div class="dropdown-content">
+                <label><input type="checkbox" value="32 inch led tv" class="filter-checkbox" data-filter="screen_size">32 inch LED TV</label>
+            </div>
+        </div>
+
+        <!-- Screen Type Dropdown -->
+        <div class="dropdown">
+            <p class="dropbtn">Screen Type</p>
+            <div class="dropdown-content">
+                <label><input type="checkbox" value="residency" class="filter-checkbox" data-filter="type">Residency</label>
+                <label><input type="checkbox" value="corporate" class="filter-checkbox" data-filter="type">Corporate</label>
+                <label><input type="checkbox" value="corporate mall" class="filter-checkbox" data-filter="type">Corporate Mall</label>
+            </div>
+        </div>
+
+        <!-- Reset Filters Link -->
+         <div>
+             <button>Reset Filter</button>
+         </div>
+        <input type="search" id="searchInput" placeholder="Search by Property Name, City, or Locality">
+    </div>
+
+    <div class="main-table">
+        <h2>Media Sites</h2>
+        <p>Total Selected: 
+            <span>
+              <%= selectedProposal[0].total_properties ? selectedProposal[0].total_properties : 0 %> Properties, 
+              <%= selectedProposal[0].total_screens ? selectedProposal[0].total_screens : 0 %> Screens
+            </span>
+          </p>
+          
+          
+    </div>
+    <div class="select-screen">
+       
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    
+                    <th style="display: none;">ID</th>
+                    <th>Property Name</th>
+                    <th>City</th>
+                    <th>Locality</th>
+                    <th>Pin Code</th>
+                    <th>Property Price (Cr)</th>
+                    <th>Screen Size</th>
+                    <th>No of Towers</th>
+                    <th>No of Screens</th>
+                    <th>Households</th>
+                    <th>Approx Reach</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody id="propertyTableBody">
+                <% properties.forEach(property => { %>
+                <tr data-type="<%= property.type %>" data-zone="<%= property.zone %>" data-screen_size="<%= property.screen_size %>" data-locality="<%= property.locality %>">
+                    <th><input type="checkbox" <% if (selectedPropertyIds.includes(property.property_id)) { %> checked <% } %>></th>
+                    <td style="display: none;"><%= property.property_id %></td>
+                    <td><%= property.property_name %></td>
+                    <td><%= property.zone %></td>
+                    <td><%= property.locality %></td>
+                    <td><%= property.pin_code %></td>
+                    <td><%= property.property_price_upto %></td>
+                    <td><%= property.screen_size %></td>
+                    <td><%= property.no_of_towers %></td>
+                    <td><%= property.no_of_screens %></td>
+                    <td><%= property.captive_households %></td>
+                    <td><%= property.approx_reach %></td>
+                    <td><%= property.type %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+            
+        </table>
+        <div id="noResultsMessage" style="display: none; text-align: center;font-size: 20px;margin-top: 10px;">Please Select One City</div>
+    </div>
+</div>
+
+<div class="button-container">
+    <button type="button"  onclick="goBack()" class="custom-btn warning-btn">Go Back</button>
+    <button type="submit" class="custom-btn button primary-btn">Next</button>
+</div>
+
+
+
+<script>
+    // Function to filter the table based on dropdown filters and search input
+function filterTable() {
+    const filters = {
+        city: Array.from(document.querySelectorAll('.filter-checkbox[data-filter="city"]:checked')).map(checkbox => checkbox.value.toLowerCase()),
+        price: document.querySelector('input[name="priceFilter"]:checked') ? document.querySelector('input[name="priceFilter"]:checked').value.toLowerCase() : "", // Get selected radio button value
+        screenSize: Array.from(document.querySelectorAll('.filter-checkbox[data-filter="screen_size"]:checked')).map(checkbox => checkbox.value.toLowerCase()),
+        type: Array.from(document.querySelectorAll('.filter-checkbox[data-filter="type"]:checked')).map(checkbox => checkbox.value.toLowerCase()),
+        search: document.getElementById('searchInput').value.toLowerCase() // Get search value
+    };
+
+    let rows = Array.from(document.querySelectorAll('#propertyTableBody tr')); // Convert NodeList to Array
+    let noResults = true; // Track if any results are visible
+
+    // If no city is selected, hide all rows and show no results message
+    if (filters.city.length === 0) {
+        rows.forEach(row => row.style.display = 'none');
+        document.getElementById('noResultsMessage').style.display = 'block'; // Show "No screens found" message
+        return; // Exit the function early
+    }
+
+    rows.forEach(row => {
+        const city = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+        const price = parseFloat(row.querySelector('td:nth-child(7)').textContent); // Ensure it's a float
+        const screenSize = row.querySelector('td:nth-child(8)').textContent.toLowerCase();
+        const screenType = row.querySelector('td:nth-child(13)').textContent.toLowerCase();
+        const propertyName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+        const locality = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
+
+        // Check if row matches all selected filters
+        const cityMatch = filters.city.includes(city);
+        const screenSizeMatch = filters.screenSize.length === 0 || filters.screenSize.includes(screenSize);
+        const screenTypeMatch = filters.type.length === 0 || filters.type.includes(screenType);
+        const searchMatch = propertyName.includes(filters.search) || city.includes(filters.search) || locality.includes(filters.search);
+
+        // Only show rows if they match all filters (except price at this point)
+        if (cityMatch && screenSizeMatch && screenTypeMatch && searchMatch) {
+            row.style.display = ''; // Show row if it matches filters and search
+            noResults = false;
+        } else {
+            row.style.display = 'none'; // Hide row if it doesn't match
+        }
+    });
+
+    // Sort the visible rows based on the price filter (ascending/descending)
+    if (filters.price === 'ascending' || filters.price === 'descending') {
+        rows = rows.filter(row => row.style.display === ''); // Only sort visible rows
+        rows.sort((a, b) => {
+            const priceA = parseFloat(a.querySelector('td:nth-child(7)').textContent);
+            const priceB = parseFloat(b.querySelector('td:nth-child(7)').textContent);
+            
+            return filters.price === 'ascending' ? priceA - priceB : priceB - priceA;
+        });
+
+        // Reattach sorted rows to the table body
+        const tableBody = document.getElementById('propertyTableBody');
+        rows.forEach(row => tableBody.appendChild(row));
+    }
+
+    // Show or hide the "No screens found" message if no rows are visible
+    document.getElementById('noResultsMessage').style.display = noResults ? 'block' : 'none';
+}
+
+// Attach event listeners to the dropdown checkboxes for filter functionality
+document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', filterTable);
+});
+
+// Attach event listener to the price radio buttons
+document.querySelectorAll('input[name="priceFilter"]').forEach(radio => {
+    radio.addEventListener('change', filterTable);
+});
+
+// Attach event listener to the search input
+document.getElementById('searchInput').addEventListener('input', filterTable);
+
+// Reset filters functionality
+document.querySelector('button').addEventListener('click', function () {
+    document.querySelectorAll('.filter-checkbox').forEach(checkbox => checkbox.checked = false);
+    document.querySelectorAll('input[name="priceFilter"]').forEach(radio => radio.checked = false); // Reset price radios
+    document.getElementById('searchInput').value = ""; // Clear search input
+    filterTable(); // Reapply filter logic with no filters selected
+});
+
+// Initial call to hide all rows when the page loads
+filterTable();
+
+</script>
+<script>
+    // Function to filter the table based on search input
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#propertyTableBody tr');
+        let noResults = true;
+
+        rows.forEach(row => {
+            const propertyName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+            const city = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+            const locality = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
+
+            if (propertyName.includes(searchValue) || city.includes(searchValue) || locality.includes(searchValue)) {
+                row.style.display = ''; // Show row if it matches
+                noResults = false;
+            } else {
+                row.style.display = 'none'; // Hide row if it doesn't match
+            }
+        });
+
+        // Show or hide the "No results" message
+        document.getElementById('noResultsMessage').style.display = noResults ? 'block' : 'none';
+    });
+
+    // Other existing code for handling checkbox selection and saving data...
+
+    // Function to update totals and log to console
+    function updateTotals() {
+        const checkboxes = document.querySelectorAll('#propertyTableBody input[type="checkbox"]:checked');
+        let totalProperties = checkboxes.length;
+        let totalScreens = 0;
+        let totalApproxReach = 0;
+        let propertyIds = [];
+        let propertyNames = [];
+
+        checkboxes.forEach((checkbox) => {
+            const row = checkbox.closest('tr');
+            const propertyId = row.querySelector('td:nth-child(2)').textContent;
+            const propertyName = row.querySelector('td:nth-child(3)').textContent;
+            const screens = parseInt(row.querySelector('td:nth-child(10)').textContent);
+            const approxReach = parseInt(row.querySelector('td:nth-child(12)').textContent);
+
+            propertyIds.push(propertyId);        // Collecting Property ID
+            propertyNames.push(propertyName);    // Collecting Property Name
+            totalScreens += screens;             // Counting total screens
+            totalApproxReach += approxReach;     // Counting total Approx Reach
+        });
+
+        // Update the text on the page
+        document.querySelector('.main-table span').textContent = `${totalProperties} Properties, ${totalScreens} Screens`;
+
+        // Log all the requested data
+        console.log('Checkbox Clicked! Current Selection:');
+        console.log('Selected Property IDs:', propertyIds);
+        console.log('Property Names:', propertyNames);
+        console.log('Total Properties:', totalProperties);
+        console.log('Total Screens:', totalScreens);
+        console.log('Total Approx Reach:', totalApproxReach);
+    }
+
+    // Attach event listener to all checkboxes in the table
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAllCheckbox = document.getElementById('selectallCheckbox');
+        const checkboxes = document.querySelectorAll('#propertyTableBody input[type="checkbox"]');
+
+        // Event listener for individual checkboxes
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', updateTotals);
+        });
+
+        // Event listener for "Select All" checkbox
+        selectAllCheckbox.addEventListener('change', function () {
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+            updateTotals();
+        });
+    });
+
+
+
+// Function to gather and send the selected data when the "Save" button is clicked
+document.querySelector('.button').addEventListener('click', function () {
+  const checkboxes = document.querySelectorAll('#propertyTableBody input[type="checkbox"]:checked');
+  let totalProperties = checkboxes.length;
+  let totalScreens = 0;
+  let totalApproxReach = 0;
+  let propertyIds = [];
+  let propertyNames = [];
+  let propertyCities = [];  // Array to collect unique city names
+
+  checkboxes.forEach((checkbox) => {
+    const row = checkbox.closest('tr');
+    const propertyId = row.querySelector('td:nth-child(2)').textContent;
+    const propertyName = row.querySelector('td:nth-child(3)').textContent;
+    const city = row.querySelector('td:nth-child(4)').textContent;
+    const screens = parseInt(row.querySelector('td:nth-child(10)').textContent);
+    const approxReach = parseInt(row.querySelector('td:nth-child(12)').textContent);
+
+    propertyIds.push(propertyId);        // Collecting Property ID
+    propertyNames.push(propertyName);    // Collecting Property Name
+    if (!propertyCities.includes(city)) {
+      propertyCities.push(city);      // Collecting unique City Name
+    }
+    totalScreens += screens;             // Counting total screens
+    totalApproxReach += approxReach;     // Counting total Approx Reach
+  });
+
+  const proposalID = document.getElementById('proposalID').textContent;
+
+  // Send data to the server using a POST request
+  fetch('/proposals/saveProperties', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      proposalID: proposalID,
+      propertyIds: propertyIds,
+      propertyNames: propertyNames,
+      propertyCities: propertyCities,  // Sending unique city data
+      totalProperties: totalProperties,
+      totalScreens: totalScreens,
+      totalApproxReach: totalApproxReach
+    })
+  }).then(response => response.json())
+    .then(data => {
+      console.log('Server Response:', data);
+
+      // Check for the popRequired field and conditionally redirect
+      if (data.status === 'success') {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Properties saved successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Redirect based on popRequired condition
+          const proposalID = data.proposalID.trim();
+          if (data.popRequired) {
+            window.location.href = `/proposals/popRequired?proposalID=${proposalID}`;
+          } else {
+            window.location.href = `/proposals/pricing?proposalID=${proposalID}`;
+          }
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: 'There was an error saving the properties.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    }).catch(error => {
+      console.error('Error:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to save data. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    });
+});
+function goBack() {
+    window.history.back();
+   
+}
+
+
+</script>
+
+
+</body>
+
+</html>

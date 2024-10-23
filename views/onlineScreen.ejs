@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Screens</title>
+    <link rel="stylesheet" href="/css/screen.css" />
+</head>
+<body>
+    <%- include('Dashboard') %>
+    <div class="show-Screen" id="show-Screen" style="height: 92vh;width: 98%;">
+        <div>
+          <h2 style="display: flex;justify-content: space-between;text-align: center;">Online Screens
+            <button id="exportButton" class="export-btn" >Export</button>
+          </h2>
+          <p style="font-size: small;">Total Online Screen: <%= totalOnlineCount %></p>
+        </div>
+        
+        <div class="tableClass" style="max-height: 84vh;">
+          <table>
+            <thead>
+              <tr>
+                <!-- <th></th>  -->
+                <th>Sr No.</th>
+                <th>Screen Id</th>
+
+                <th>Screen Name</th>
+                <th>Playlist Name</th>
+                <th>Status</th>
+                <th>Tags</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Last Response Time</th>
+                <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+                <% if (onlineScreens && onlineScreens.length) { %>
+                  <% onlineScreens.forEach((screen, index) => { %>
+                    <tr data-pairingcode="<%= screen.screenid %>">
+                      <td><%= index + 1 %></td>
+                      <td><%= screen.screenid %></td>
+      
+                      <td><%= screen.screenname %></td>
+                      <td><%= screen.playlistname %></td>
+                      <td>
+                        <p class="status-cell <%= screen.status === 'offline' ? 'offline' : 'online' %>">
+                          <%= screen.status %>
+                        </p>
+                      </td>
+                      <td><%= screen.tags.length > 20 ? screen.tags.substring(0, 20) + '...' : screen.tags %></td>
+                      <td><%= screen.location.length > 20 ? screen.location.substring(0, 20) + '...' : screen.location %></td>
+                      <td><%= screen.city.length > 20 ? screen.city.substring(0, 20) + '...' : screen.city %></td>
+                      <td>
+                        <% function timeSince(dateTime) {
+                          const seconds = Math.floor((Date.now() - new Date(dateTime)) / 1000);
+                          let interval = Math.floor(seconds / 86400);
+                          if (interval >= 1) return interval + " day" + (interval > 1 ? "s" : "") + " ago";
+                          interval = Math.floor(seconds / 3600);
+                          if (interval >= 1) return interval + " hour" + (interval > 1 ? "s" : "") + " ago";
+                          interval = Math.floor(seconds / 60);
+                          if (interval >= 1) return interval + " minute" + (interval > 1 ? "s" : "") + " ago";
+                          return seconds + " second" + (seconds > 1 ? "s" : "") + " ago";
+                        } %>
+                        <%= screen.lastResponse ? timeSince(screen.lastResponse) : 'N/A' %>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="10">No screens found</td>
+                  </tr>
+                <% } %>
+              </tbody>
+              
+              
+          </table>
+        </div>
+
+        <div id="noResultsMessage" style="display: none; text-align: center;">No screens found.</div>
+    </div>
+<script>
+    document.getElementById("exportButton").addEventListener("click", function () {
+        // Get the table data
+        var table = document.querySelector("table");
+        var worksheet = XLSX.utils.table_to_sheet(table);
+
+        // Create a new workbook
+        var workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "OfflineScreens");
+
+        // Export the Excel file
+        XLSX.writeFile(workbook, "Offline_Screens.xlsx");
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</body>
+</html>
