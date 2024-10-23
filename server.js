@@ -424,7 +424,7 @@ app.get("/logs", checkRole(['admin']),dashboardRoutes.isAuthenticated, async (re
 
 
 // Route to display all users
-app.get("/admin/users", async (req, res) => {
+app.get("/admin/users",dashboardRoutes.isAuthenticated,  async (req, res) => {
 
   try {
     const users = await User1.findAll();
@@ -437,7 +437,7 @@ app.get("/admin/users", async (req, res) => {
 });
 
 // Route to get the edit user form
-app.get("/admin/users/:id/edit", async (req, res) => {
+app.get("/admin/users/:id/edit",dashboardRoutes.isAuthenticated,  async (req, res) => {
   const userId = req.params.id;
 
   try {
@@ -459,7 +459,7 @@ app.get("/admin/users/:id/edit", async (req, res) => {
 // Route to update a user's profile
 
 // Route to update a user's profile
-app.post("/admin/users/:id/edit", async (req, res) => {
+app.post("/admin/users/:id/edit", dashboardRoutes.isAuthenticated, async (req, res) => {
   const {
       name,
       email,
@@ -535,7 +535,7 @@ app.post("/admin/users/:id/edit", async (req, res) => {
 // 
 
 // Route to delete a user
-app.post("/admin/users/:id/delete", async (req, res) => {
+app.post("/admin/users/:id/delete", dashboardRoutes.isAuthenticated, async (req, res) => {
   const userId = req.params.id;
 
   try {
