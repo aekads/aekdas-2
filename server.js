@@ -196,12 +196,12 @@ app.get("/livedata", api.getAllScreensAllData);
 
 // Middleware to check if user is 'admin' or 'editor'
 
-app.get("/register", (req, res) => {
+app.get("/register", dashboardRoutes.isAuthenticated, (req, res) => {
   res.render("register");
 });
 
 
-app.post("/register", async (req, res) => {
+app.post("/register",dashboardRoutes.isAuthenticated,  async (req, res) => {
   const { name, email, password, role } = req.body;
   const permissions = req.body.permissions || {}; // Permissions from the form
   const allowedRoles = ["admin", "editor", "member", "sales"];
