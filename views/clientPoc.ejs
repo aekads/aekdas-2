@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Proposal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem !important;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--black-80, #1C1C1CCC);
+        }
+
+        .form-group2 label {
+            font-weight: 500;
+            color: var(--black-80, #1C1C1CCC);
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        p {
+            margin-bottom: 280px;
+        }
+
+        @media (max-width:768px) {
+            p {
+                margin: 0;
+            }
+        }
+
+        .stepper {
+            margin: 17px 1px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .step-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 23px;
+            height: 23px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            color: #666;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 15px;
+        }
+
+        .step-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .step.active .step-number {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 52%;
+            left: calc(100% + 13px);
+            transform: translateY(-50%);
+            width: 45px;
+            height: 3px;
+            background-color: #e0e0e0;
+        }
+
+        @media (max-width:1200px) {
+            .step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 52%;
+                left: calc(100% + 2px);
+                transform: translateY(-50%);
+                width: 19px;
+                height: 3px;
+                background-color: #e0e0e0;
+            }
+        }
+
+        @media (min-width: 1300px) and (max-width: 1400px) {
+            .step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 52%;
+                left: calc(100% + 7px);
+                transform: translateY(-50%);
+                width: 33px;
+                height: 3px;
+                background-color: #e0e0e0;
+            }
+        }
+
+        .step.active~.step .step-number {
+            background-color: #e0e0e0;
+            color: #666;
+        }
+
+        .step.active~.step .step-label {
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .stepper {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            .step {
+                margin-bottom: 20px;
+            }
+
+            .step:not(:last-child)::after {
+                display: none;
+            }
+
+            .step-number {
+                width: 25px;
+                height: 25px;
+                font-size: 12px;
+            }
+
+            .step-label {
+                font-size: 12px;
+            }
+        }
+
+        .form-group2 {
+            margin-bottom: 100px;
+        }
+
+        @media(max-width:1100px) {
+            .stepper {
+                display: none;
+            }
+
+            .card-title {
+                margin-bottom: 8%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="card" style="border: none;">
+            <div class="card-body" style=" padding: 0;">
+                <h3 class="card-title text-center" style="text-align: left !important; font-size: 22px;">SUBMIT PROPOSAL
+                </h3>
+
+                <!-- Progress Bar -->
+                <div class="stepper">
+                    
+                    <div class="step">
+                        <div class="step-number">
+                            <svg width="23" height="23" viewBox="0 0 33 33" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.5" cy="16.5" r="15.75" fill="white" stroke="#0D6EFD"
+                                    stroke-width="1.5" />
+                                <path d="M25 12L14 23L9 18" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="step-label">Basic Details</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">
+                            <svg width="23" height="23" viewBox="0 0 33 33" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.5" cy="16.5" r="15.75" fill="white" stroke="#0D6EFD"
+                                    stroke-width="1.5" />
+                                <path d="M25 12L14 23L9 18" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="step-label">Targets</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">
+                            <svg width="23" height="23" viewBox="0 0 33 33" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.5" cy="16.5" r="15.75" fill="white" stroke="#0D6EFD"
+                                    stroke-width="1.5" />
+                                <path d="M25 12L14 23L9 18" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="step-label">POP Instruction</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">
+                            <svg width="23" height="23" viewBox="0 0 33 33" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.5" cy="16.5" r="15.75" fill="white" stroke="#0D6EFD"
+                                    stroke-width="1.5" />
+                                <path d="M25 12L14 23L9 18" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="step-label">Pricing</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">
+                            <svg width="23" height="23" viewBox="0 0 33 33" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.5" cy="16.5" r="15.75" fill="white" stroke="#0D6EFD"
+                                    stroke-width="1.5" />
+                                <path d="M25 12L14 23L9 18" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="step-label">Finance</div>
+                    </div>
+                    <div class="step active">
+                        <div class="step-number">6</div>
+                        <div class="step-label">Client POC</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">7</div>
+                        <div class="step-label">Creatives</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">8</div>
+                        <div class="step-label">Summary</div>
+                    </div>
+                </div>
+
+
+                <p id="proposalID" style="display: none;">
+                    <%= proposalID %>
+                </p>
+                <!-- Form -->
+                <form id="clientPocForm">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="clientPOCName">*Client POC Name</label>
+                            <input type="text" class="form-control" id="clientPOCName"
+                                placeholder="Enter client POC name" required
+                                value="<%= selectedProposal.poc_name || '' %>"> <!-- Populate existing name -->
+                        </div>
+                    </div>
+                
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="clientPOCDesignation">*Client POC Designation</label>
+                            <input type="text" class="form-control" id="clientPOCDesignation"
+                                placeholder="Enter client POC designation" required
+                                value="<%= selectedProposal.poc_designation || '' %>"> <!-- Populate existing designation -->
+                        </div>
+                    </div>
+                
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="clientPOCContact">*Client POC Main Contact</label>
+                            <input type="text" class="form-control" id="clientPOCContact" name="clientPOCContact"
+                                placeholder="Enter client POC main contact" required
+                                value="<%= selectedProposal.poc_contact || '' %>"> <!-- Populate existing contact -->
+                            <div class="invalid-feedback" id="clientPOCContactError" style="color: red;"></div>
+                        </div>
+                    </div>
+                
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="clientPOCAltContact">Client POC Alternative Contact</label>
+                            <input type="text" class="form-control" id="clientPOCAltContact" name="clientPOCAltContact"
+                                placeholder="Enter client POC alternative contact (optional)"
+                                value="<%= selectedProposal.poc_alt_contact || '' %>"> <!-- Populate existing alternative contact -->
+                            <div class="invalid-feedback" id="clientPOCAltContactError" style="color: red;"></div>
+                        </div>
+                    </div>
+                
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="clientPOCCity">*Client POC City</label>
+                            <input type="text" class="form-control" id="clientPOCCity"
+                                placeholder="Enter client POC city" required
+                                value="<%= selectedProposal.poc_city || '' %>"> <!-- Populate existing city -->
+                        </div>
+                    </div>
+                
+                    <div class="mb-3">
+                        <div class="form-group2">
+                            <label for="clientPOCEmail">*Client POC Email</label>
+                            <input type="email" class="form-control" id="clientPOCEmail"
+                                placeholder="Enter client POC email" required
+                                value="<%= selectedProposal.poc_email || '' %>"> <!-- Populate existing email -->
+                        </div>
+                    </div>
+                
+                    <div class="mb-3">
+                        <div class="justify-content-between" style="text-align: center;">
+                            <button type="button" onclick="goBack()" class="btn btn-warning">Go Back</button>
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    
+        document.getElementById('clientPocForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission until validation passes
+    
+            // Get form values
+            const clientPOCContact = document.getElementById('clientPOCContact').value.trim();
+            const clientPOCAltContact = document.getElementById('clientPOCAltContact').value.trim();
+    
+            // Clear previous validation errors
+            let isFormValid = true;
+    
+            // Main Contact validation
+            if (!validatePhoneNumber(clientPOCContact)) {
+                document.getElementById('clientPOCContact').classList.add('is-invalid');
+                document.getElementById('clientPOCContactError').innerText = 'Invalid main contact number.';
+                isFormValid = false;
+            } else {
+                document.getElementById('clientPOCContact').classList.remove('is-invalid');
+                document.getElementById('clientPOCContactError').innerText = '';
+            }
+    
+            // Alternative Contact validation (only if filled)
+            if (clientPOCAltContact && !validatePhoneNumber(clientPOCAltContact)) {
+                document.getElementById('clientPOCAltContact').classList.add('is-invalid');
+                document.getElementById('clientPOCAltContactError').innerText = 'Invalid alternative contact number.';
+                isFormValid = false;
+            } else {
+                document.getElementById('clientPOCAltContact').classList.remove('is-invalid');
+                document.getElementById('clientPOCAltContactError').innerText = '';
+            }
+    
+            // If the form is valid, submit it
+            if (isFormValid) {
+                // Form data preparation
+                const formData = {
+                    proposalID: document.getElementById('proposalID').textContent,
+                    clientPOCName: document.getElementById('clientPOCName').value,
+                    clientPOCDesignation: document.getElementById('clientPOCDesignation').value,
+                    clientPOCContact: clientPOCContact,
+                    clientPOCAltContact: clientPOCAltContact || null, // Optional contact
+                    clientPOCCity: document.getElementById('clientPOCCity').value,
+                    clientPOCEmail: document.getElementById('clientPOCEmail').value
+                };
+    
+                fetch('/proposals/clientPOCFormSubmit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error(text);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.message) {
+                        const proposalID = formData.proposalID.trim();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'poc Data Submitted',
+                            text: 'You will be redirected shortly.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = `/proposals/creativeUpload?proposalID=${proposalID}`;
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Submission Failed',
+                        text: 'An error occurred while submitting the form.',
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please correct the highlighted fields before submitting the form.',
+                });
+            }
+        });
+    
+        // Simple phone number validation function (you can improve this)
+        function validatePhoneNumber(phone) {
+            const phonePattern = /^[0-9]{10}$/; // Example: checks for a 10-digit number
+            return phonePattern.test(phone);
+        }
+    </script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- app.post('/submit', async (req, res) => {
+    const { clientPOCName, clientPOCDesignation, clientPOCContact, clientPOCAltContact, clientPOCCity, clientPOCEmail } = req.body;
+  
+    try {
+      const query = `
+        INSERT INTO client_pocs (poc_name, poc_designation, poc_contact, poc_alt_contact, poc_city, poc_email) 
+        VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;
+      `;
+  
+      const values = [clientPOCName, clientPOCDesignation, clientPOCContact, clientPOCAltContact || null, clientPOCCity, clientPOCEmail];
+      const result = await pool.query(query, values);
+  
+      res.send(`Data inserted successfully! Client POC ID: ${result.rows[0].id}`);
+    } catch (err) {
+      console.error('Error inserting data:', err);
+      res.status(500).send('Error saving data to database.');
+    }
+  }); -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- poc_name VARCHAR(255) NOT NULL,
+  poc_designation VARCHAR(255) NOT NULL,
+  poc_contact VARCHAR(50) NOT NULL,  -- Main contact
+  poc_alt_contact VARCHAR(50),       -- Alternative contact (optional)
+  poc_city VARCHAR(100) NOT NULL,
+  poc_email VARCHAR(255) NOT NULL -->

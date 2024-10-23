@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Proposal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem !important;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--black-80, #1C1C1CCC);
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .stepper {
+            margin: 17px 1px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .step-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 23px;
+            height: 23px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            color: #666;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 15px;
+        }
+
+        .step-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .step.active .step-number {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 52%;
+            left: calc(100% + 13px);
+            transform: translateY(-50%);
+            width: 45px;
+            height: 3px;
+            background-color: #e0e0e0;
+        }
+
+        @media (max-width:1200px) {
+            .step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 52%;
+                left: calc(100% + 2px);
+                transform: translateY(-50%);
+                width: 19px;
+                height: 3px;
+                background-color: #e0e0e0;
+            }
+        }
+
+        @media (min-width: 1300px) and (max-width: 1400px) {
+            .step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 52%;
+                left: calc(100% + 7px);
+                transform: translateY(-50%);
+                width: 33px;
+                height: 3px;
+                background-color: #e0e0e0;
+            }
+        }
+
+        .step.active~.step .step-number {
+            background-color: #e0e0e0;
+            color: #666;
+        }
+
+        .step.active~.step .step-label {
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .stepper {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            .step {
+                margin-bottom: 20px;
+            }
+
+            .step:not(:last-child)::after {
+                display: none;
+            }
+
+            .step-number {
+                width: 25px;
+                height: 25px;
+                font-size: 12px;
+            }
+
+            .step-label {
+                font-size: 12px;
+            }
+        }
+
+        @media(max-width:1100px) {
+            .stepper {
+                display: none;
+            }
+
+            .card-title {
+                margin-bottom: 10%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <p id="proposalID" style="display: none;">
+        <%= proposalID %>
+    </p>
+    <div class="container my-5">
+        <div class="card" style="padding: 0; border: none;">
+            <h3 class="card-title" style="font-size: 22px;">SUBMIT PROPOSAL</h3>
+            <div class="step-indicator">
+                <div class="stepper">
+                    
+                    <div class="step">
+                        <div class="step-number">
+                            <svg width="23" height="23" viewBox="0 0 33 33" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.5" cy="16.5" r="15.75" fill="white" stroke="#0D6EFD"
+                                    stroke-width="1.5" />
+                                <path d="M25 12L14 23L9 18" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="step-label">Basic Details</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">
+                            <svg width="23" height="23" viewBox="0 0 33 33" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.5" cy="16.5" r="15.75" fill="white" stroke="#0D6EFD"
+                                    stroke-width="1.5" />
+                                <path d="M25 12L14 23L9 18" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="step-label">Targets</div>
+                    </div>
+                    <div class="step active">
+                        <div class="step-number">3</div>
+                        <div class="step-label">POP Instruction</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Pricing</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Finance</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-label">Client POC</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">7</div>
+                        <div class="step-label">Creatives</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">8</div>
+                        <div class="step-label">Summary</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <form id="proposalForm">
+                <div class="mb-3">
+                    <label for="dates" class="form-label">Dates</label>
+                    <select class="form-select" id="dates">
+                        <option value="">Select Dates</option>
+                        <option value="Start Date" <%=selectedProposal[0]?.pop_dates==='Start Date' ? 'selected' : '' %>
+                            >Start Date</option>
+                        <option value="End Date" <%=selectedProposal[0]?.pop_dates==='End Date' ? 'selected' : '' %>>End
+                            Date</option>
+                        <option value="Both Start and End Date"
+                            <%=selectedProposal[0]?.pop_dates==='Both Start and End Date' ? 'selected' : '' %>>Both
+                            Start and End Date</option>
+                        <option value="Any Date between campaign period"
+                            <%=selectedProposal[0]?.pop_dates==='Any Date between campaign period' ? 'selected' : '' %>
+                            >Any Date between campaign period</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="properties" class="form-label">Properties</label>
+                    <select class="form-select" id="properties">
+                        <option value="">Select Properties</option>
+                        <option value="All Properties" <%=selectedProposal[0]?.pop_properties==='All Properties'
+                            ? 'selected' : '' %>>All Properties</option>
+                        <option value="10% Properties from Each City(Recommended)"
+                            <%=selectedProposal[0]?.pop_properties==='10% Properties from Each City(Recommended)'
+                            ? 'selected' : '' %>>10% Properties from Each City(Recommended)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="screens" class="form-label">Screens</label>
+                    <input type="text" class="form-control" id="screens" placeholder="Enter screen details"
+                        value="<%= selectedProposal[0]?.pop_screens %>">
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="geoTagging"
+                        <%=selectedProposal[0]?.pop_geo_tagging ? 'checked' : '' %>>
+                    <label class="form-check-label" for="geoTagging">Geo Tagging Required?</label>
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="newspaperProof"
+                        <%=selectedProposal[0]?.pop_newspaper_proof ? 'checked' : '' %>>
+                    <label class="form-check-label" for="newspaperProof">Newspaper Proof Required?</label>
+                </div>
+                <div class="mb-3">
+                    <label for="popInstruction" class="form-label">Instruction for POP (if any)</label>
+                    <textarea class="form-control" id="popInstruction" rows="3"
+                        placeholder="Enter instructions"><%= selectedProposal[0]?.pop_instruction %></textarea>
+                </div>
+                <div class="justify-content-between" style="text-align: center;">
+                    <button type="button" onclick="goBack()" class="btn btn-warning">Go Back</button>
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </div>
+            </form>
+
+            <script>
+                function goBack() {
+                    window.history.back();
+                }
+            
+                document.getElementById('proposalForm').addEventListener('submit', function (event) {
+                    event.preventDefault();
+            
+                    const formData = {
+                        proposalID: document.getElementById('proposalID').textContent,
+                        pop_dates: document.getElementById('dates').value,
+                        pop_properties: document.getElementById('properties').value,
+                        pop_screens: document.getElementById('screens').value,
+                        pop_geo_tagging: document.getElementById('geoTagging').checked,
+                        pop_newspaper_proof: document.getElementById('newspaperProof').checked,
+                        pop_instruction: document.getElementById('popInstruction').value
+                    };
+            
+                    fetch('/proposals/popSubmit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => { // Get error details if not OK
+                                throw new Error(text);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.message) { // Check if the message key is present in the response
+                            console.log('Success:', data);
+                            const proposalID = formData.proposalID.trim(); // Get the proposalID from the formData
+                            console.log("proposalID", proposalID);
+            
+                            // Display SweetAlert success message
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Pop data submitted successfully',
+                                text: 'You will be redirected shortly.',
+                                timer: 2000, // Auto close after 2 seconds
+                                showConfirmButton: false
+                            }).then(() => {
+                                // Redirect to the next page after SweetAlert closes
+                                window.location.href = `/proposals/pricing?proposalID=${proposalID}`;
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+            
+                        // Display SweetAlert error message
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Submission Failed',
+                            text: `Failed to submit proposal: ${error.message}`,
+                            confirmButtonText: 'Try Again'
+                        });
+                    });
+                });
+            </script>
+            
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+dates VARCHAR(100),                  -- Stores the selected dates
+properties VARCHAR(100),             -- Stores the selected properties
+screens VARCHAR(100),                -- Stores screen details
+geo_tagging BOOLEAN,                 -- Stores if geo-tagging is required
+newspaper_proof BOOLEAN,             -- Stores if newspaper proof is required
+pop_instruction TEXT,        -->
+
+
+<!--  new database colomn name 23-09-24 
+    pop_dates VARCHAR(100),           -- Stores the selected dates
+    pop_properties VARCHAR(100),      -- Stores the selected properties
+    pop_screens VARCHAR(100),         -- Stores screen details
+    pop_geo_tagging BOOLEAN,          -- Stores if geo-tagging is required
+    pop_newspaper_proof BOOLEAN,      -- Stores if newspaper proof is required
+    pop_instruction TEXT,     
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- // Handle form submission
+app.post('/submit-proposal', async (req, res) => {
+    const { dates, properties, screens, geoTagging, newspaperProof, popInstruction } = req.body;
+
+    try {
+        // Insert data into the database
+        const result = await pool.query(
+            'INSERT INTO proposals (dates, properties, screens, geo_tagging, newspaper_proof, pop_instruction) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [dates, properties, screens, geoTagging, newspaperProof, popInstruction]
+        );
+        res.status(201).json({ message: 'Proposal submitted successfully', data: result.rows[0] });
+    } catch (error) {
+        console.error('Error saving proposal', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}); -->

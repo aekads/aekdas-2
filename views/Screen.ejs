@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Screens</title>
+  <link rel="icon" type="image/png"
+    href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <link rel="stylesheet" href="/css/font.css" />
+  <link rel="stylesheet" href="/css/screen.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <style>
+    .column-selection {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      width: 70ch;
+      box-shadow: 0px 0px 10px 0px #000;
+      z-index: 10;
+    }
+
+    .column-selection h3 {
+      margin-top: 0;
+    }
+
+    .column-selection label {
+      display: block;
+      margin: 5px 0;
+    }
+
+
+
+    .settings {
+      background-color: transparent;
+      border: none;
+      /* padding: 10px; */
+      /* border-radius: 5px; */
+      cursor: pointer;
+      /* display: flex; */
+      /* align-items: center; */
+    }
+
+    /* 
+    .settings i {
+      margin-right: 5px;
+    } */
+
+    .settings:hover,
+    .edit:hover,
+    .delete:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <% if (message) { %>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        Swal.fire({
+          icon: '<%= message.type === "error" ? "error" : "success" %>',
+          title: '<%= message.type === "error" ? "Error" : "Success" %>',
+          text: '<%= message.text %>',
+          customClass: {
+            title: '<%= message.type === "error" ? "error-title" : "success-title" %>',
+            content: '<%= message.type === "error" ? "error-content" : "success-content" %>'
+          }
+        });
+      });
+    </script>
+    <% } %>
+
+
+
+
+
+      <%- include('Dashboard') %>
+        <div class="screens">
+          <div class="home-screen">
+            <p style="margin: 0;">Home><b>Screens</b></p>
+          </div>
+
+          <!-- <div class="screen-overview">
+            <div class="total-screen">
+              <h3>Total Screen</h3>
+              <p>
+                <%= screenCount %>
+              </p>
+            </div>
+            <div class="online-screen">
+              <h3>Online Screen</h3>
+              <p>
+                <%= onlineScreen %>
+              </p>
+            </div>
+            <div class="offline-screen">
+              <h3>Offline Screen</h3>
+              <p>
+                <%= offlineScreen %>
+              </p>
+            </div>
+          </div> -->
+
+          <div class="screen-btn">
+            <div class="screen-btn-3">
+              <button class="allScreen" onclick="showAllScreen()">All Screens</button>
+              <button class="screenGroups" onclick="showGroupScreen()">Screen Groups</button>
+              <button class="deletedScreen" id="" onclick="showDeletedScreens()">Deleted Screens</button>
+            </div>
+            <div class="screen-btn-2">
+              <input type="search" id="searchInput" placeholder="Search">
+              <button class="newScreen-btn" id="screenc" onclick="addNewScreen()">
+                <span>+</span>New Screen
+              </button>
+              <button class="newGroup" onclick="addNewGroup()">
+                <span>+</span>New Group
+              </button>
+            </div>
+          </div>
+
+          <div class="show-Screen" id="show-Group-Screen">
+            <h2>Group Screen</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                  <th>Group Description</th>
+                  <th>Screen Count</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (groupscreen && groupscreen.length) { %>
+                  <% groupscreen.forEach(group=>
+                    { %>
+                    <tr>
+                      <td>
+                        <%= group.group_name %>
+                      </td>
+                      <td>
+                        <%= group.group_description %>
+                      </td>
+                      <td>
+                        <%= group.total_screen %>
+                      </td>
+                      <td>
+                        <div class="action" style="background: transparent; border: none;">
+                          <button class="edit" onclick="editGroup('<%= group.group_name %>')">
+                            <svg width="26" height="26" viewBox="0 0 30 30" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="15" cy="15" r="15" fill="#E8AF04" />
+                              <g clip-path="url(#clip0_4058_3397)">
+                                <path
+                                  d="M14.25 9H9C8.60218 9 8.22064 9.15804 7.93934 9.43934C7.65804 9.72064 7.5 10.1022 7.5 10.5V21C7.5 21.3978 7.65804 21.7794 7.93934 22.0607C8.22064 22.342 8.60218 22.5 9 22.5H19.5C19.8978 22.5 20.2794 22.342 20.5607 22.0607C20.842 21.7794 21 21.3978 21 21V15.75"
+                                  stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                  d="M19.875 7.87517C20.1734 7.5768 20.578 7.40918 21 7.40918C21.422 7.40918 21.8266 7.5768 22.125 7.87517C22.4234 8.17354 22.591 8.57821 22.591 9.00017C22.591 9.42213 22.4234 9.8268 22.125 10.1252L15 17.2502L12 18.0002L12.75 15.0002L19.875 7.87517Z"
+                                  stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_4058_3397">
+                                  <rect width="18" height="18" fill="white" transform="translate(6 6)" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+
+                          </button>
+                          <button class="delete" onclick="deleteGroup('<%= group.group_name %>')">
+                            <svg width="26" height="26" viewBox="0 0 30 30" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="15" cy="15" r="15" fill="#DC3545" />
+                              <path d="M8.25 10.5H9.75H21.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                              <path
+                                d="M12 10.5V9C12 8.60218 12.158 8.22064 12.4393 7.93934C12.7206 7.65804 13.1022 7.5 13.5 7.5H16.5C16.8978 7.5 17.2794 7.65804 17.5607 7.93934C17.842 8.22064 18 8.60218 18 9V10.5M20.25 10.5V21C20.25 21.3978 20.092 21.7794 19.8107 22.0607C19.5294 22.342 19.1478 22.5 18.75 22.5H11.25C10.8522 22.5 10.4706 22.342 10.1893 22.0607C9.90804 21.7794 9.75 21.3978 9.75 21V10.5H20.25Z"
+                                stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M13.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                              <path d="M16.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            </svg>
+
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <% }) %>
+                      <% } else { %>
+                        <tr>
+                          <td colspan="4">No Group found</td>
+                        </tr>
+                        <% } %>
+
+              </tbody>
+            </table>
+          </div>
+
+          <div class="overlay" id="overlay">
+            <div class="newScreen">
+              <div class="newScreen-header">
+                <h2 style="margin: 0; color: #202224; font-size: 18px;">NEW SCREEN</h2>
+                <button class="close-btn" onclick="hideNewScreen()"><svg width="23" height="23" viewBox="0 0 23 23"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.875 5.625L5.625 16.875" stroke="#37393A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M5.625 5.625L16.875 16.875" stroke="#37393A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+              <hr />
+
+              <div class="addNewScreen">
+                <div class="addNewScreen-form">
+                  <form action="/Dashboard/Screens" method="post">
+                    <div class="form-class">
+                      <label>Pairing Code</label>
+                      <input type="number" name="pairingCode" required pattern="\d{6}" min="000000" max="999999" />
+                    </div>
+                    <div class="form-class">
+                      <label>Screen Name</label>
+                      <input type="text" name="screenName" required />
+                    </div>
+                    <div class="form-class">
+                      <label>Tags</label>
+                      <input type="text" name="tags" required />
+                    </div>
+                    <div class="form-class">
+                      <label>Enter Address</label>
+                      <input type="text" name="location" required />
+                    </div>
+                    <div class="location">
+                      <div class="form-class">
+                        <label>City</label>
+                        <input type="text" name="city" required />
+                      </div>
+                      <div class="form-class">
+                        <label>State</label>
+                        <input type="text" name="state" required />
+                      </div>
+                      <div class="form-class">
+                        <label>Country</label>
+                        <input type="text" name="country" required />
+                      </div>
+                      <div class="form-class">
+                        <label>Pincode</label>
+                        <input type="text" name="pincode" required />
+                      </div>
+                    </div>
+                    <div class="form-class pairScreen-btn">
+                      <input class="newscreenbtnn" type="submit" value="Pair Screen" style="padding: 10px;" />
+                    </div>
+                  </form>
+                </div>
+                <div class="map-img"></div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="show-Screen" id="show-Screen">
+            <div>
+              <h2>Screens/Players <button id="exportButton" class="export-btn" style="display: none;">Export</button>
+
+              </h2>
+              <p style="font-size: small; margin: 10px 0;">Total Screen : <%= screenCount %>
+              </p>
+
+
+              <!-- Column Selection Modal/Dropdown -->
+              <div id="columnSelection" class="column-selection">
+                <h3 style="display: flex; justify-content: space-between;">
+                  Select Columns to Export
+                  <button id="closeColumnSelection"
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer;">&times;</button>
+                </h3>
+                <form>
+                  <!-- <label><input type="checkbox" name="columns" value="Sr No." checked> Sr No.</label><br> -->
+                  <label><input type="checkbox" name="columns" value="Screen Id" checked> Screen Id</label><br>
+                  <!-- <label><input type="checkbox" name="columns" value="Pairing Code" checked> Pairing Code</label><br> -->
+                  <label><input type="checkbox" name="columns" value="Screen Name" checked> Screen Name</label><br>
+                  <label><input type="checkbox" name="columns" value="Type Of Screen" checked> Type Of
+                    Screen</label><br>
+                  <label><input type="checkbox" name="columns" value="Playlist Name" checked> Playlist Name</label><br>
+                  <label><input type="checkbox" name="columns" value="Live Name" checked> Live Name</label><br>
+
+                  <label><input type="checkbox" name="columns" value="Status" checked> Status</label><br>
+                  <label><input type="checkbox" name="columns" value="Orientation" checked> Orientation</label><br>
+
+                  <label><input type="checkbox" name="columns" value="Tags" checked> Tags</label><br>
+                  <label><input type="checkbox" name="columns" value="Address" checked> Address</label><br>
+                  <label><input type="checkbox" name="columns" value="Filled Slots" checked> Filled Slots</label><br>
+
+                  
+                  <label><input type="checkbox" name="columns" value="Last Response Time" checked> Last Response
+                    Time</label><br>
+                </form>
+                <button id="exportSelectedColumns" class="export-btn">Export Selected</button>
+              </div>
+
+
+            </div>
+            <div class="tableClass">
+              <table>
+                <thead>
+                  <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>Sr No.</th>
+                    <th>Screen Id</th>
+                    <th style="display: none;">Pairing Code</th>
+                    <th>Screen Name</th>
+                    <th>Type Of Screen</th>
+                    <th>Playlist Name</th>
+                    <th>Live Name</th>
+
+                    <th>Status</th>
+
+                    <th>Orientation</th>
+                    <th>Address</th>
+                    <th>Filled Slots</th>
+                    <th>Last Response Time</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (screens && screens.length) { %>
+                    <% screens.forEach((screen, index)=> { %>
+                      <tr data-pairingcode="<%= screen.screenid %>">
+
+                        <td>
+                          <input type="checkbox" class="row-select" />
+                        </td>
+                        <td>
+                          <%= index + 1 %>
+                        </td>
+                        <td id="screen.screenid">
+                          <%= screen.screenid %>
+                        </td>
+                        <td id="screen.pairingcode" style="display: none;">
+                          <%= screen.pairingcode %>
+                        </td>
+                        <td id="screen.screenname">
+                          <%= screen.screenname %>
+                        </td>
+
+                        <td id="screen.ifsecondscreenispresentondevice">
+                          <% let matchFound=false; screenDeviceConfig.forEach(screenconfig=> {
+                            if (screen.screenid == screenconfig.client_name) {
+                            matchFound = true;
+                            %>
+                            <%= screenconfig.ifsecondscreenispresentondevice===1 ? 'Single' :
+                              (screenconfig.ifsecondscreenispresentondevice===2 ? 'Dual' : 'not Update' ) %>
+                              <% } }); if (!matchFound) { %>
+                                ---
+                                <% } %>
+                        </td>
+
+                        <td id="screen.playlistname">
+                          <div style="display: flex;">
+                            <p>
+                              <%= screen.playlistname %>
+                            </p>
+                            <!-- <button class="delete" onclick="deletePlaylist('<%= screen.screenid %>')">
+                              <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_1_4435)">
+                                  <path
+                                    d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+                                    stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M8 12H16" stroke="#FF0000" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_1_4435">
+                                    <rect width="25" height="25" fill="white" />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button> -->
+                          </div>
+                        </td>
+                        <td id="screen.filled_slots">
+                          <%= screen.name %>
+                        </td>
+
+                        <td id="screen.deleted">
+                          <% let foundStatus=false; screenStatus.forEach(screenStu=> {
+                            if (screen.screenid == screenStu.client_name) {
+                            foundStatus = true;
+                            %>
+                            <p class="status-cell <%= screenStu.status === 'offline' ? 'offline' : 'online' %> ">
+                              <%= screenStu.status %>
+                            </p>
+                            <% } }); if (!foundStatus) { %>
+                              <p class="status-cell not-updated">not updated</p>
+                              <% } %>
+                        </td>
+
+
+                        <td id="screen.resolution">
+                          <% let resolutionFound=false; screenDeviceConfig.forEach(screenconfig=> {
+                            if (screen.screenid == screenconfig.client_name) {
+                            resolutionFound = true;
+                            %>
+                            <%= screenconfig.resolution ? screenconfig.resolution : "Not Update" %>
+                              <% } }); if (!resolutionFound || !screenDeviceConfig.length) { %>
+                                ---
+                                <% } %>
+                        </td>
+
+
+
+
+                        <td id="screen.location">
+                          <%= screen.location.length> 20 ? screen.location.substring(0, 20) + '...' : screen.location %>
+                        </td>
+                        <td id="screen.filled_slots">
+                          <%= screen.filled_slots %>
+                        </td>
+                        <td id="screen.pincode">
+
+                          <% function timeSince(dateTime) { const seconds=Math.floor((Date.now() - new Date(dateTime)) /
+                            1000); let interval=Math.floor(seconds / 86400); if (interval>= 1) return interval + " day"
+                            + (interval > 1 ? "s" : "") + " ago";
+
+                            interval = Math.floor(seconds / 3600);
+                            if (interval >= 1) return interval + " hour" + (interval > 1 ? "s" : "") + " ago";
+
+                            interval = Math.floor(seconds / 60);
+                            if (interval >= 1) return interval + " minute" + (interval > 1 ? "s" : "") + " ago";
+
+                            return seconds + " second" + (seconds > 1 ? "s" : "") + " ago";
+                            } %>
+
+                            <% let updated=false; %> <!-- Flag to track if updated time is found -->
+
+                              <% screenStatus.forEach(screenStu=> {
+                                if (screen.screenid == screenStu.client_name) {
+                                if (screenStu.updated_at) {
+                                updated = true; %> <!-- Update flag if time is found -->
+                                <%= timeSince(screenStu.updated_at) %>
+                                  <% } } }); %>
+
+                                    <% if (!updated) { %> <!-- If no match was found or updated_at is null -->
+                                      Not Updated
+                                      <% } %>
+
+                        </td>
+
+                        <td>
+                          <div class="action">
+                            <button class="edit" id="screene" onclick="editScreen('<%= screen.screenid %>')">
+                              <svg width="26" height="26" viewBox="0 0 30 30" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="15" cy="15" r="15" fill="#E8AF04" />
+                                <g clip-path="url(#clip0_4058_3397)">
+                                  <path
+                                    d="M14.25 9H9C8.60218 9 8.22064 9.15804 7.93934 9.43934C7.65804 9.72064 7.5 10.1022 7.5 10.5V21C7.5 21.3978 7.65804 21.7794 7.93934 22.0607C8.22064 22.342 8.60218 22.5 9 22.5H19.5C19.8978 22.5 20.2794 22.342 20.5607 22.0607C20.842 21.7794 21 21.3978 21 21V15.75"
+                                    stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                  <path
+                                    d="M19.875 7.87517C20.1734 7.5768 20.578 7.40918 21 7.40918C21.422 7.40918 21.8266 7.5768 22.125 7.87517C22.4234 8.17354 22.591 8.57821 22.591 9.00017C22.591 9.42213 22.4234 9.8268 22.125 10.1252L15 17.2502L12 18.0002L12.75 15.0002L19.875 7.87517Z"
+                                    stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_4058_3397">
+                                    <rect width="18" height="18" fill="white" transform="translate(6 6)" />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                            <button class="delete" id="screend" onclick="markAsDeleted('<%= screen.screenid %>')">
+                              <svg width="26" height="26" viewBox="0 0 30 30" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="15" cy="15" r="15" fill="#DC3545" />
+                                <path d="M8.25 10.5H9.75H21.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M12 10.5V9C12 8.60218 12.158 8.22064 12.4393 7.93934C12.7206 7.65804 13.1022 7.5 13.5 7.5H16.5C16.8978 7.5 17.2794 7.65804 17.5607 7.93934C17.842 8.22064 18 8.60218 18 9V10.5M20.25 10.5V21C20.25 21.3978 20.092 21.7794 19.8107 22.0607C19.5294 22.342 19.1478 22.5 18.75 22.5H11.25C10.8522 22.5 10.4706 22.342 10.1893 22.0607C9.90804 21.7794 9.75 21.3978 9.75 21V10.5H20.25Z"
+                                  stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M13.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path d="M16.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                              </svg>
+                            </button>
+                            <a href="/setting/<%= screen.screenid %>">
+                              <button class="settings">
+                                <svg width="25" height="25" viewBox="0 0 30 30" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <circle cx="15" cy="15" r="15" fill="#0D6EFD" />
+                                  <g clip-path="url(#clip0_7644_8284)">
+                                    <path
+                                      d="M15 17.25C16.2426 17.25 17.25 16.2426 17.25 15C17.25 13.7574 16.2426 12.75 15 12.75C13.7574 12.75 12.75 13.7574 12.75 15C12.75 16.2426 13.7574 17.25 15 17.25Z"
+                                      stroke="#FCFCFC" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                    <path
+                                      d="M20.55 17.25C20.4502 17.4762 20.4204 17.7271 20.4645 17.9704C20.5086 18.2137 20.6246 18.4382 20.7975 18.615L20.8425 18.66C20.982 18.7993 21.0926 18.9647 21.1681 19.1468C21.2436 19.3289 21.2824 19.5241 21.2824 19.7213C21.2824 19.9184 21.2436 20.1136 21.1681 20.2957C21.0926 20.4778 20.982 20.6432 20.8425 20.7825C20.7032 20.922 20.5378 21.0326 20.3557 21.1081C20.1736 21.1836 19.9784 21.2224 19.7812 21.2224C19.5841 21.2224 19.3889 21.1836 19.2068 21.1081C19.0247 21.0326 18.8593 20.922 18.72 20.7825L18.675 20.7375C18.4982 20.5646 18.2737 20.4486 18.0304 20.4045C17.7871 20.3604 17.5362 20.3902 17.31 20.49C17.0882 20.5851 16.899 20.7429 16.7657 20.9442C16.6325 21.1454 16.561 21.3812 16.56 21.6225V21.75C16.56 22.1478 16.402 22.5294 16.1207 22.8107C15.8394 23.092 15.4578 23.25 15.06 23.25C14.6622 23.25 14.2806 23.092 13.9993 22.8107C13.718 22.5294 13.56 22.1478 13.56 21.75V21.6825C13.5542 21.4343 13.4738 21.1935 13.3294 20.9915C13.1849 20.7896 12.9831 20.6357 12.75 20.55C12.5238 20.4502 12.2729 20.4204 12.0296 20.4645C11.7863 20.5086 11.5618 20.6246 11.385 20.7975L11.34 20.8425C11.2007 20.982 11.0353 21.0926 10.8532 21.1681C10.6711 21.2436 10.4759 21.2824 10.2787 21.2824C10.0816 21.2824 9.88644 21.2436 9.70434 21.1681C9.52224 21.0926 9.35681 20.982 9.2175 20.8425C9.07804 20.7032 8.9674 20.5378 8.89191 20.3557C8.81642 20.1736 8.77757 19.9784 8.77757 19.7812C8.77757 19.5841 8.81642 19.3889 8.89191 19.2068C8.9674 19.0247 9.07804 18.8593 9.2175 18.72L9.2625 18.675C9.4354 18.4982 9.55139 18.2737 9.5955 18.0304C9.63962 17.7871 9.60984 17.5362 9.51 17.31C9.41493 17.0882 9.25707 16.899 9.05585 16.7657C8.85463 16.6325 8.61884 16.561 8.3775 16.56H8.25C7.85218 16.56 7.47064 16.402 7.18934 16.1207C6.90804 15.8394 6.75 15.4578 6.75 15.06C6.75 14.6622 6.90804 14.2806 7.18934 13.9993C7.47064 13.718 7.85218 13.56 8.25 13.56H8.3175C8.56575 13.5542 8.8065 13.4738 9.00847 13.3294C9.21045 13.1849 9.36429 12.9831 9.45 12.75C9.54984 12.5238 9.57962 12.2729 9.5355 12.0296C9.49139 11.7863 9.3754 11.5618 9.2025 11.385L9.1575 11.34C9.01804 11.2007 8.9074 11.0353 8.83191 10.8532C8.75642 10.6711 8.71757 10.4759 8.71757 10.2787C8.71757 10.0816 8.75642 9.88644 8.83191 9.70434C8.9074 9.52224 9.01804 9.35681 9.1575 9.2175C9.29681 9.07804 9.46224 8.9674 9.64434 8.89191C9.82644 8.81642 10.0216 8.77757 10.2188 8.77757C10.4159 8.77757 10.6111 8.81642 10.7932 8.89191C10.9753 8.9674 11.1407 9.07804 11.28 9.2175L11.325 9.2625C11.5018 9.4354 11.7263 9.55139 11.9696 9.5955C12.2129 9.63962 12.4638 9.60984 12.69 9.51H12.75C12.9718 9.41493 13.161 9.25707 13.2943 9.05585C13.4275 8.85463 13.499 8.61884 13.5 8.3775V8.25C13.5 7.85218 13.658 7.47064 13.9393 7.18934C14.2206 6.90804 14.6022 6.75 15 6.75C15.3978 6.75 15.7794 6.90804 16.0607 7.18934C16.342 7.47064 16.5 7.85218 16.5 8.25V8.3175C16.501 8.55884 16.5725 8.79463 16.7057 8.99585C16.839 9.19707 17.0282 9.35493 17.25 9.45C17.4762 9.54984 17.7271 9.57962 17.9704 9.5355C18.2137 9.49139 18.4382 9.3754 18.615 9.2025L18.66 9.1575C18.7993 9.01804 18.9647 8.9074 19.1468 8.83191C19.3289 8.75642 19.5241 8.71757 19.7213 8.71757C19.9184 8.71757 20.1136 8.75642 20.2957 8.83191C20.4778 8.9074 20.6432 9.01804 20.7825 9.1575C20.922 9.29681 21.0326 9.46224 21.1081 9.64434C21.1836 9.82644 21.2224 10.0216 21.2224 10.2188C21.2224 10.4159 21.1836 10.6111 21.1081 10.7932C21.0326 10.9753 20.922 11.1407 20.7825 11.28L20.7375 11.325C20.5646 11.5018 20.4486 11.7263 20.4045 11.9696C20.3604 12.2129 20.3902 12.4638 20.49 12.69V12.75C20.5851 12.9718 20.7429 13.161 20.9442 13.2943C21.1454 13.4275 21.3812 13.499 21.6225 13.5H21.75C22.1478 13.5 22.5294 13.658 22.8107 13.9393C23.092 14.2206 23.25 14.6022 23.25 15C23.25 15.3978 23.092 15.7794 22.8107 16.0607C22.5294 16.342 22.1478 16.5 21.75 16.5H21.6825C21.4412 16.501 21.2054 16.5725 21.0042 16.7057C20.8029 16.839 20.6451 17.0282 20.55 17.25V17.25Z"
+                                      stroke="#FCFCFC" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_7644_8284">
+                                      <rect width="18" height="18" fill="white" transform="translate(6 6)" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+
+                              </button>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      <% }); %>
+                        <% } else { %>
+                          <tr>
+                            <td colspan="10">No screens found</td>
+                          </tr>
+                          <% } %>
+                </tbody>
+
+              </table>
+            </div>
+
+
+            <div id="noResultsMessage" style="display: none; text-align: center;">No screens found.</div>
+          </div>
+
+          <div class="overlay" id="editOverlay">
+            <div class="newScreen">
+              <div class="newScreen-header">
+                <h2 id="editTitle" style="margin: 0; color: #202224; font-size: 18px;">EDIT SCREEN</h2>
+                <button class="close-btn" onclick="hideEditScreen()"><svg width="23" height="23" viewBox="0 0 23 23"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.875 5.625L5.625 16.875" stroke="#37393A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M5.625 5.625L16.875 16.875" stroke="#37393A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </button>
+
+
+              </div>
+              <hr />
+              <div class="addNewScreen">
+                <div class="addNewScreen-form">
+                  <form id="editScreenForm" action="/Dashboard/Screens/edit-screen" method="post">
+                    <div class="form-class">
+                      <label>Pairing Code</label>
+                      <input type="text" id="editPairingCode" name="pairingCode" required readonly />
+                    </div>
+                    <div class="form-class" style="display: none;">
+                      <label>Screen Id</label>
+                      <input type="text" id="editScreenid" name="screenid" required />
+                    </div>
+                    <div class="form-class">
+                      <label>Screen Name</label>
+                      <input type="text" id="editScreenName" name="screenName" required />
+                    </div>
+                    <div class="form-class">
+                      <label>Tags</label>
+                      <input type="text" id="editTags" name="tags" required />
+                    </div>
+                    <div class="form-class">
+                      <label>Enter Location</label>
+                      <input type="text" id="editLocation" name="location" required />
+                    </div>
+                    <div class="location">
+                      <div class="form-class">
+                        <label>City</label>
+                        <input type="text" id="editCity" name="city" required />
+                      </div>
+                      <div class="form-class">
+                        <label>State</label>
+                        <input type="text" id="editState" name="state" required />
+                      </div>
+                      <div class="form-class">
+                        <label>Country</label>
+                        <input type="text" id="editCountry" name="country" required />
+                      </div>
+                      <div class="form-class">
+                        <label>Pincode</label>
+                        <input type="text" id="editPincode" name="pincode" required />
+                      </div>
+                    </div>
+                    <div class="form-class pairScreen-btn">
+                      <input class="newscreenbtnn" type="submit" id="editSubmit" value="Edit Screen" />
+                    </div>
+                  </form>
+                </div>
+                <div class="map-img"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="show-Screen" id="show-Deleted-Screen">
+            <div>
+              <h2>Deleted Screens/Players</h2>
+              <p style="font-size: small; margin: 10px 0;">Total Deleted Screen : <%= offlineScreen %>
+              </p>
+            </div>
+
+            <div class="tableClass">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Sr No.</th>
+                    <th>Screen Id</th>
+                    <th>Pairing Code</th>
+                    <th>Screen Name</th>
+                    <th>Status</th>
+                    <th>Tags</th>
+                    <th>Location</th>
+                    <th>City</th>
+                    <th>Pincode</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (deletedScreens && deletedScreens.length) { %>
+                    <% deletedScreens.forEach((deletedScreen,index)=>
+                      { %>
+                      <tr data-pairingcode="<%= deletedScreen.screenid %>">
+                        <td>
+                          <%= index+1 %>
+                        </td>
+                        <td>
+                          <%= deletedScreen.screenid %>
+                        </td>
+                        <td>
+                          <%= deletedScreen.pairingcode %>
+                        </td>
+                        <td>
+                          <%= deletedScreen.screenname %>
+                        </td>
+                        <td>
+                          <p class="status-cell <%= deletedScreen.deleted ? 'offline' : 'online' %>">
+                            <%= deletedScreen.deleted ? 'Offline' : 'Online' %>
+                          </p>
+                        </td>
+                        <td>
+                          <%= deletedScreen.tags %>
+                        </td>
+                        <td>
+                          <%= deletedScreen.location %>
+                        </td>
+                        <td>
+                          <%= deletedScreen.city %>
+                        </td>
+                        <td>
+                          <%= deletedScreen.pincode %>
+                        </td>
+                        <td>
+                          <div class="action">
+                            <button class="restore" onclick="restoreScreen('<%= deletedScreen.screenid %>')">
+                              <svg width="26" height="26" viewBox="0 0 30 30" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="15" cy="15" r="15" fill="#20C997" />
+                                <path d="M6.75 9V13.5H11.25" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M8.6325 17.2498C9.1188 18.6301 10.0405 19.815 11.2587 20.6259C12.477 21.4368 13.9258 21.8298 15.3868 21.7457C16.8478 21.6616 18.2419 21.105 19.3591 20.1597C20.4763 19.2143 21.2559 17.9316 21.5807 16.5046C21.9054 15.0777 21.7576 13.5838 21.1595 12.2482C20.5614 10.9125 19.5454 9.80744 18.2646 9.09941C16.9839 8.39139 15.5077 8.11879 14.0585 8.32268C12.6093 8.52657 11.2657 9.19591 10.23 10.2298L6.75 13.4998"
+                                  stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+
+
+                            </button>
+                            <button class="delete" onclick="permanentDeleteScreen('<%= deletedScreen.screenid %>')">
+                              <svg width="26" height="26" viewBox="0 0 30 30" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="15" cy="15" r="15" fill="#DC3545" />
+                                <path d="M8.25 10.5H9.75H21.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M12 10.5V9C12 8.60218 12.158 8.22064 12.4393 7.93934C12.7206 7.65804 13.1022 7.5 13.5 7.5H16.5C16.8978 7.5 17.2794 7.65804 17.5607 7.93934C17.842 8.22064 18 8.60218 18 9V10.5M20.25 10.5V21C20.25 21.3978 20.092 21.7794 19.8107 22.0607C19.5294 22.342 19.1478 22.5 18.75 22.5H11.25C10.8522 22.5 10.4706 22.342 10.1893 22.0607C9.90804 21.7794 9.75 21.3978 9.75 21V10.5H20.25Z"
+                                  stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M13.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path d="M16.5 14.25V18.75" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                              </svg>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <% }) %>
+                        <% } else { %>
+                          <tr>
+                            <td colspan="9">No deleted screens found</td>
+                          </tr>
+                          <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <script>
+          // Function to toggle the visibility of the Export button
+          function toggleExportButton() {
+            const checkboxes = document.querySelectorAll('.row-select');
+            const exportButton = document.getElementById('exportButton');
+
+            // Check if any checkbox is selected
+            const anySelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+            // Show or hide the Export button
+            exportButton.style.display = anySelected ? 'flex' : 'none';
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          // Event listener for the Select All checkbox
+          document.getElementById('selectAll').addEventListener('change', function () {
+            const isChecked = this.checked;
+            const checkboxes = document.querySelectorAll('.row-select');
+            checkboxes.forEach(checkbox => {
+              checkbox.checked = isChecked;
+            });
+            toggleExportButton(); // Check if any checkbox is selected
+          });
+
+          // Event listener for each row checkbox
+          document.querySelectorAll('.row-select').forEach(checkbox => {
+            checkbox.addEventListener('change', toggleExportButton);
+          });
+
+        </script>
+        <script src="/javaScripts/screen.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+        <script>
+          // Event listener for the Select All checkbox
+          document.getElementById('selectAll').addEventListener('change', function () {
+            const isChecked = this.checked;
+            const checkboxes = document.querySelectorAll('.row-select');
+            checkboxes.forEach(checkbox => checkbox.checked = isChecked);
+          });
+
+          // Event listener for the Export Selected Columns button
+          document.getElementById('exportSelectedColumns').addEventListener('click', () => {
+            const selectedColumns = Array.from(document.querySelectorAll('input[name="columns"]:checked')).map(input => input.value);
+            const selectedRows = Array.from(document.querySelectorAll('.row-select:checked')).map(checkbox => checkbox.closest('tr'));
+            exportTable(selectedColumns, selectedRows);
+            document.getElementById('columnSelection').style.display = 'none';
+          });
+
+          // Function to export table data based on selected columns and rows
+          function exportTable(selectedColumns, selectedRows) {
+            let csvContent = "data:text/csv;charset=utf-8,";
+
+            // Add header row
+            csvContent += selectedColumns.join(",") + "\r\n";
+
+            // Add data rows
+            selectedRows.forEach(row => {
+              let rowData = [];
+              selectedColumns.forEach(column => {
+                const cell = row.querySelector(`td:nth-child(${getColumnIndex(column)})`);
+                rowData.push(cell ? cell.innerText : '');
+              });
+              csvContent += rowData.join(",") + "\r\n";
+            });
+
+            // Create and trigger the download link for CSV
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "selected_rows_export.csv");
+            document.body.appendChild(link);
+            link.click();
+          }
+
+          // Function to find the index of a column by its name
+          function getColumnIndex(columnName) {
+            const headers = document.querySelectorAll('#show-Screen table thead th');
+            for (let i = 0; i < headers.length; i++) {
+              if (headers[i].innerText.trim() === columnName) {
+                return i + 1;
+              }
+            }
+            return -1;
+          }
+
+          // Event listener for the Export button to show the column selection
+          document.getElementById('exportButton').addEventListener('click', () => {
+            document.getElementById('columnSelection').style.display = 'block';
+          });
+
+          // Function to handle exporting the entire table to Excel (optional)
+          function exportTableToExcel(tableID, filename = '') {
+            let table = document.getElementById(tableID);
+            let ws = XLSX.utils.table_to_sheet(table.querySelector('table'));
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "ScreensData");
+            filename = filename ? filename + '.xlsx' : 'exported_data.xlsx';
+            XLSX.writeFile(wb, filename);
+          }
+        </script>
+
+        <script>
+          // Close the Column Selection modal when the close button is clicked
+          document.getElementById('closeColumnSelection').addEventListener('click', () => {
+            document.getElementById('columnSelection').style.display = 'none';
+          });
+
+
+        </script>
+        
+<script>
+
+
+  
+  
+  
+  
+  
+  
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('/session-data')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.user); // Access session.user data here
+      console.log(data.user.permissions); 
+      console.log(data.user.role); // Access session.user data here
+
+      // Helper function to hide all matching elements by class
+      function hideElementsByClass(className) {
+        document.querySelectorAll(`.${className}`).forEach(element => {
+          element.style.display = 'none';
+        });
+      }
+
+      // Apply permissions across all matching elements
+      if (!data.user.permissions.includes('sc')) {
+        hideElementsByClass('newScreen-btn');  // Hide all "New Screen" buttons
+      }
+      if (!data.user.permissions.includes('su')) {
+        hideElementsByClass('edit');  // Hide all "Edit" buttons
+      }
+      if (!data.user.permissions.includes('sd')) {
+        hideElementsByClass('delete');  // Hide all "Delete" buttons
+      }
+      if (!data.user.permissions.includes('sd')) {
+        hideElementsByClass('deletedScreen');  // Hide all "Deleted Screen" buttons
+      }
+    })
+    .catch(error => console.error('Error fetching session data:', error));
+});
+
+        
+        
+        
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </script>
+</body>
+
+</html>

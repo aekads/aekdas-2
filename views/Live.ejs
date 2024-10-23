@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live</title>
+    <link rel="icon" type="image/png"
+        href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+    <link rel="stylesheet" href="/css/playlist.css" />
+    <link rel="stylesheet" href="/css/font.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        .home-LiveContent {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 5px 20px;
+            gap: 9px;
+            width: 171px;
+            height: 30px;
+            left: 239px;
+            top: 42px;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('Dashboard') %>
+        <div class="playlist">
+            <header>
+                <div class="home-LiveContent">
+                    <p>Home><b>LiveContent</b></p>
+                </div>
+                <div class="search-newplaylist">
+                    <input type="search" placeholder="Search" id="searchInput">
+                    <button class="newPlaylist" id="live1" onclick="addPlaylistBox()">
+                        <span>+</span>New Live Content
+                    </button>
+                </div>
+            </header>
+            <div class="create-playlist" id="overlay">
+                <div class="newScreen">
+                    <div class="newScreen-header">
+                        <h2 style="margin: 0;">New Live Content</h2>
+                        <button class="close-btn" onclick="hideNewScreen()"><svg width="23" height="23"
+                                viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.875 5.625L5.625 16.875" stroke="#37393A" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M5.625 5.625L16.875 16.875" stroke="#37393A" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <hr />
+                    <div class="addNewScreen-form">
+                        <div class="form-class">
+                            <label>Live Name</label>
+                            <input type="text" name="liveName" id="liveName" required />
+                        </div>
+                        <div class="form-class">
+                            <label>Live Description</label>
+                            <textarea name="liveDescription" id="liveDescription" required></textarea>
+                        </div>
+                        <div class="form-class btn">
+                            <button id="createPlaylistButton">Share Live Content</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="showPlaylists">
+                <% if (liveData && liveData.length> 0) { %>
+                    <% liveData.forEach(liveItem=> { %>
+                        <div class="playlist-items">
+                            <div class="playlist-img">
+
+                            </div>
+                            <div style="display: flex; justify-content: space-between; gap: 10px;">
+
+                                <div>
+                                    <div class="playlist-info">
+                                        <p style="font-size: 18px;">
+                                            <%= truncateText(liveItem.name, 20) %>
+                                                <% function truncateText(text, maxLength) { if (text.length> maxLength)
+                                                    {
+                                                    return text.substring(0, maxLength) + '...';
+                                                    }
+                                                    return text;
+                                                    }
+                                                    %>
+                                        </p>
+                                    </div>
+                                    <div class="playlist-info3">
+                                        <p style="font-size: 14px;">
+                                            <%= truncateText(liveItem.description, 20) %>
+                                                <% function truncateText(text, maxLength) { if (text.length> maxLength)
+                                                    {
+                                                    return text.substring(0, maxLength) + '...';
+                                                    }
+                                                    return text;
+                                                    }
+                                                    %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="playlist-info2">
+                                       
+                                        <button2 class="dhvanildelet" id="live2" onclick="deleteLive('<%= liveItem.id %>')">Delete</button2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                            <% } else { %>
+                                <p>No Live available.</p>
+                                <% } %>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <script>
+            let searchInput = document.getElementById('searchInput');
+
+            function filterLiveContent() {
+                const filter = searchInput.value.toLowerCase();
+                const liveItems = document.querySelectorAll('.playlist-items');
+                liveItems.forEach(liveItem => {
+                    const liveName = liveItem.querySelector('.playlist-info p').textContent.toLowerCase();
+                    if (liveName.includes(filter)) {
+                        liveItem.style.display = '';
+                    } else {
+                        liveItem.style.display = 'none';
+                    }
+                });
+            }
+
+            searchInput.addEventListener('input', filterLiveContent);
+            window.addEventListener('load', filterLiveContent);
+
+            function addPlaylistBox() {
+                document.getElementById("overlay").style.display = "flex";
+            }
+
+            function hideNewScreen() {
+                document.getElementById("overlay").style.display = "none";
+            }
+
+            document.getElementById("createPlaylistButton").addEventListener("click", function (event) {
+                const liveName = document.getElementById("liveName").value;
+                const liveDescription = document.getElementById("liveDescription").value;
+
+                if (!liveName || !liveDescription) {
+                    alert("Please fill in all required fields.");
+                    event.preventDefault();
+                    return;
+                }
+
+                sessionStorage.setItem("liveName", liveName);
+                sessionStorage.setItem("liveDescription", liveDescription);
+
+                window.location.href = "/Dashboard/LiveContent/liveLink";
+            });
+
+            async function deleteLive(liveId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            const response = await fetch(`/Dashboard/LiveContent/deletePlaylist/${liveId}`, {
+                                method: "DELETE",
+                            });
+
+                            if (!response.ok) {
+                                throw new Error("Failed to delete LiveData");
+                            }
+
+                            const responseData = await response.json();
+                            console.log("LiveData deletion response:", responseData);
+
+                            Swal.fire(
+                                'Deleted!',
+                                'Your LiveData has been deleted.',
+                                'success'
+                            ).then(() => {
+                                window.location.reload();
+                            });
+
+                        } catch (error) {
+                            console.error("Error deleting LiveData:", error);
+                            Swal.fire(
+                                'You do not have permission!',
+                                'Failed to delete LiveData. Please try again.',
+                                'error'
+                            );
+                        }
+                    }
+                });
+            }
+
+            window.deleteLive = deleteLive;
+        </script>
+         <script>
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('/session-data')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.user); // Access session.user data here
+      console.log(data.user.permissions); 
+      console.log(data.user.role); // Access session.user data here
+  
+      // Helper function to hide all matching elements by class
+      function hideElementsByClass(className) {
+        document.querySelectorAll(`.${className}`).forEach(element => {
+          element.style.display = 'none';
+        });
+      }
+  
+      // Apply permissions across all matching elements
+      if (!data.user.permissions.includes('lic')) {
+        hideElementsByClass('newPlaylist');  // Hide all "New Playlist" buttons
+      }
+     
+      if (!data.user.permissions.includes('lid')) {
+        hideElementsByClass('dhvanildelet');  // Hide all "Dhvanil Delete" buttons
+      }
+    })
+    .catch(error => console.error('Error fetching session data:', error));
+});
+
+        
+        
+        
+  
+  
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            </script>
+</body>
+
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <link rel="stylesheet" href="/css/font.css" />
+        <link rel="stylesheet" href="/css/playlist.css" />
+    <link rel="stylesheet" href="/css/teams.css" />
+    <link rel="stylesheet" href="/css/screen.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        .password-toggle {
+            cursor: pointer;
+        }
+
+        table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: center; /* Center the text horizontally */
+}
+
+input[type="checkbox"] {
+  transform: scale(1.2); /* Optional: Increase the size of checkboxes */
+  margin: 0 auto; /* Horizontally center the checkboxes */
+  display: block; /* Ensure the checkbox is treated as a block element */
+  position: relative;
+  top: 50%; /* Move the checkbox down by half of its height */
+  transform: translateY(-50%); /* Center the checkbox vertically */
+}
+        
+    </style>
+</head>
+
+<body>
+
+
+    <%- include('Dashboard') %>
+        <div class="teams">
+            <div class="home-team">
+                <p>Home><b>Teams</b></p>
+            </div>
+    
+
+            <div class="member">
+                <div class="members" id="members">
+                  Members
+                </div>
+                <div class="New-members" id="newMembers">
+                  New Member
+                </div>
+                <!-- <div class="Logs" id="logs">
+                  Logs
+                </div> -->
+              </div>
+              <script>
+                document.getElementById("members").addEventListener("click", function () {
+                  window.location.href = "/admin/users";
+                });
+                document.getElementById("newMembers").addEventListener("click", function () {
+                  window.location.href = "/Dashboard/Teams/Addmember";
+                });
+               
+              </script>
+
+
+
+
+
+            <div class="container">
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Check if there are any error or success messages
+                        var error_msg = '<%= error_msg %>';
+                        var success_msg = '<%= success_msg %>';
+                
+                        if (error_msg) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: error_msg,
+                                showConfirmButton: true
+                            });
+                        }
+                
+                        if (success_msg) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: success_msg,
+                                showConfirmButton: true
+                            });
+                        }
+                    });
+                </script>
+
+
+
+                            <div class="mainData">
+
+                                <div class="member-form">
+
+
+
+
+
+                                    <form action="/admin/users/<%= user.id %>/edit" id="editForm" method="POST">
+                                        <div class="form">
+                                            <div class="formdata">
+                                                <label for="name">Name:</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    value="<%= user.name %>" required>
+                                            </div>
+                                            <div class="formdata">
+                                                <label for="email">Email:</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    value="<%= user.email %>" required>
+                                            </div>
+                                            <div class="formdata">
+                                                <label for="role">Role:</label>
+                                                <select style="padding: 11px 10px;" id="role" name="role" required>
+                                                    <option value="admin" <%=user.role==='admin' ? 'selected' : '' %>
+                                                        >Admin</option>
+                                                    <option value="member" <%=user.role==='member' ? 'selected' : '' %>
+                                                        >Member</option>
+                                                   
+                                                        <option value="sales" <%=user.role==='sales' ? 'selected' : '' %>
+                                                            >Sales</option>
+                                                </select>
+                                            </div>
+                                            <div class="formdata">
+                                                <label for="current-password">Current Password:</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="current-password"
+                                                        name="currentPassword" placeholder="Enter current password">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text password-toggle"
+                                                            onclick="togglePassword('current-password')">
+                                                            <i class="fas fa-eye"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="formdata">
+                                                <label for="new-password">New Password:</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="new-password"
+                                                        name="newPassword" placeholder="Enter new password">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text password-toggle"
+                                                            onclick="togglePassword('new-password')">
+                                                            <i class="fas fa-eye"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="formdata">
+                                                <label for="confirm-new-password">Confirm New Password:</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control"
+                                                        id="confirm-new-password" name="confirmNewPassword"
+                                                        placeholder="Confirm new password">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text password-toggle"
+                                                            onclick="togglePassword('confirm-new-password')">
+                                                            <i class="fas fa-eye"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button style="
+
+                                            color: #fffefe;
+                                            display: flex;
+                                            flex-direction: row;
+                                            justify-content: center;
+                                            align-items: center;
+                                            padding: 12px;
+                                            gap: 9px;
+                                            font-size: 16px;
+                                            margin: 0 auto;
+                                            width: 80%;
+                                            /* height: 40px; */
+                                            border: none;
+                                            background: #0D6EFD;
+                                            border-radius: 12px;
+                                            
+                                            /* Inside auto layout */
+                                            flex: none;
+                                            order: 4;
+                                            flex-grow: 0;
+                                            " type="submit" class="btn btn-primary">Update User</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                                <div class="table1">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>PERMISSIONS</th>
+                                                <th>VIEW</th>
+                                                <th>CREATE</th>
+                                                <th>UPDATE</th>
+                                                <th>DELETE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Screen</td>
+                                                <td><input type="checkbox" name="permissions[sv]" form="editForm" class="auto-check" <%= user.permissions.includes('sv') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[sc]" form="editForm" class="auto-check" <%= user.permissions.includes('sc') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[su]" form="editForm" class="auto-check" <%= user.permissions.includes('su') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[sd]" form="editForm" class="auto-check" <%= user.permissions.includes('sd') ? 'checked' : '' %>></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Playlist</td>
+                                                <td><input type="checkbox" name="permissions[pv]" form="editForm" class="auto-check" <%= user.permissions.includes('pv') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[pc]" form="editForm" class="auto-check" <%= user.permissions.includes('pc') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[pu]" form="editForm" class="auto-check" <%= user.permissions.includes('pu') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[pd]" form="editForm" class="auto-check" <%= user.permissions.includes('pd') ? 'checked' : '' %>></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Library</td>
+                                                <td><input type="checkbox" name="permissions[lv]" form="editForm" class="auto-check" <%= user.permissions.includes('lv') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[lc]" form="editForm" class="auto-check" <%= user.permissions.includes('lc') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[lu]" form="editForm" class="auto-check" <%= user.permissions.includes('lu') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[ld]" form="editForm" class="auto-check" <%= user.permissions.includes('ld') ? 'checked' : '' %>></td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <td>Proposal</td>
+                                                <td><input type="checkbox" name="permissions[prv]" form="editForm" class="auto-check" <%= user.permissions.includes('prv') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[prc]" form="editForm" class="auto-check" <%= user.permissions.includes('prc') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[pru]" form="editForm" class="auto-check" <%= user.permissions.includes('pru') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[prd]" form="editForm" class="auto-check" <%= user.permissions.includes('prd') ? 'checked' : '' %>></td>
+                                            </tr> -->
+                                            <tr>
+                                                <td>Live</td>
+                                                <td><input type="checkbox" name="permissions[liv]" form="editForm" class="auto-check" <%= user.permissions.includes('liv') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[lic]" form="editForm" class="auto-check" <%= user.permissions.includes('lic') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[liu]" form="editForm" class="auto-check" <%= user.permissions.includes('liu') ? 'checked' : '' %>></td>
+                                                <td><input type="checkbox" name="permissions[lid]" form="editForm" class="auto-check" <%= user.permissions.includes('lid') ? 'checked' : '' %>></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                      </div> 
+                                     
+                                    </div> 
+
+
+                                </div>
+
+
+
+            </div>
+
+
+            <script>
+                function togglePassword(fieldId) {
+                    var field = document.getElementById(fieldId);
+                    var fieldType = field.getAttribute('type');
+                    if (fieldType === 'password') {
+                        field.setAttribute('type', 'text');
+                    } else {
+                        field.setAttribute('type', 'password');
+                    }
+                }
+            </script>
+
+
+<script>
+    document.querySelectorAll('.auto-check').forEach(function (checkbox) {
+      checkbox.addEventListener('click', function () {
+        console.log(`Checkbox clicked: ${this.name}, checked: ${this.checked}`);
+        
+        const row = this.closest('tr');
+
+        // Get the relevant checkboxes in the row
+        const viewCheckboxes = row.querySelectorAll('input[name="permissions[sv]"], input[name="permissions[pv]"], input[name="permissions[lv]"],  input[name="permissions[liv]"]');
+        const createCheckboxes = row.querySelectorAll('input[name="permissions[sc]"], input[name="permissions[pc]"], input[name="permissions[lc]"],  input[name="permissions[lic]"]');
+        const updateCheckboxes = row.querySelectorAll('input[name="permissions[su]"], input[name="permissions[pu]"], input[name="permissions[lu]"],  input[name="permissions[liu]"]');
+        const deleteCheckboxes = row.querySelectorAll('input[name="permissions[sd]"], input[name="permissions[pd]"], input[name="permissions[ld]"],  input[name="permissions[lid]"]');
+
+        // Update permission logic based on the checkbox clicked
+        const updatePermission = () => {
+          if (this.checked) {
+            console.log(`Checking permissions related to ${this.name}`);
+            // Check related permissions based on the checkbox clicked
+            if (this.name.includes('d')) { // If Delete is checked
+              viewCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+              createCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+              updateCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+              deleteCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+            } else if (this.name.includes('u')) { // If Update is checked
+              viewCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+              createCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+              updateCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+            } else if (this.name.includes('c')) { // If Create is checked
+              viewCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+              createCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+            } else if (this.name.includes('v')) { // If View is checked
+              viewCheckboxes.forEach(cb => {
+                cb.checked = true;
+                console.log(`Checked: ${cb.name}`);
+              });
+            }
+          } else {
+            console.log(`Unchecking permissions related to ${this.name}`);
+            // Uncheck related permissions if the checkbox is unchecked
+            if (this.name.includes('d')) { // If Delete is unchecked
+              viewCheckboxes.forEach(cb => {
+                cb.checked = false;
+                console.log(`Unchecked: ${cb.name}`);
+              });
+              createCheckboxes.forEach(cb => {
+                cb.checked = false;
+                console.log(`Unchecked: ${cb.name}`);
+              });
+              updateCheckboxes.forEach(cb => {
+                cb.checked = false;
+                console.log(`Unchecked: ${cb.name}`);
+              });
+              deleteCheckboxes.forEach(cb => {
+                cb.checked = false;
+                console.log(`Unchecked: ${cb.name}`);
+              });
+            } else if (this.name.includes('u')) { // If Update is unchecked
+              if (!Array.from(deleteCheckboxes).some(cb => cb.checked)) {
+                createCheckboxes.forEach(cb => {
+                  cb.checked = false;
+                  console.log(`Unchecked: ${cb.name}`);
+                });
+                viewCheckboxes.forEach(cb => {
+                  cb.checked = false;
+                  console.log(`Unchecked: ${cb.name}`);
+                });
+              }
+            } else if (this.name.includes('c')) { // If Create is unchecked
+              if (!Array.from(updateCheckboxes).some(cb => cb.checked)) {
+                viewCheckboxes.forEach(cb => {
+                  cb.checked = false;
+                  console.log(`Unchecked: ${cb.name}`);
+                });
+              }
+            }
+          }
+        };
+
+        // Execute the permission update logic
+        updatePermission();
+      });
+    });
+  </script>
+</body>
+
+</html>
